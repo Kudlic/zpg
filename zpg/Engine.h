@@ -7,6 +7,11 @@
 #include "Window.h"
 
 class Engine{
+private:
+	Window* window;
+	static Engine* instance;
+	Engine();
+
 public:
 	void init();
 
@@ -18,11 +23,11 @@ public:
 
 	Window* getWindow();
 
+	static Engine* getInstance();
+
 	//Scene *getScene();
 
-	Engine();
-
-private:
-	Window* window;
 
 };
+
+

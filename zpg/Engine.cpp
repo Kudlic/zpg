@@ -1,6 +1,7 @@
 #include "Engine.h"
 #include "Fragment_shader.h"
 #include "Vertex_shader.h"
+Engine* Engine::instance = 0;
 
 void Engine::init() {
 
@@ -71,6 +72,7 @@ void Engine::startRendering() {
 	glAttachShader(shaderProgram, vertexShader);
 	glLinkProgram(shaderProgram);
 
+	while (!glfwWindowShouldClose(window->getWindow())) {
 	// clear color and depth buffer
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glUseProgram(shaderProgram);
@@ -81,6 +83,7 @@ void Engine::startRendering() {
 	glfwPollEvents();
 	// put the stuff we’ve been drawing onto the display
 	glfwSwapBuffers(window->getWindow());
+	}
 
 glfwDestroyWindow(window->getWindow());
 glfwTerminate();
@@ -99,4 +102,14 @@ void Engine::onClick(int button, int action, double x, double y) {
 
 Engine::Engine() {
 	init();
+}
+
+Engine* Engine::getInstance()
+{
+	if (instance == 0)
+	{
+		instance = new Engine();
+	}
+
+	return instance;
 }
