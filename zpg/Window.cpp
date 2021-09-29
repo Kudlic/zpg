@@ -30,14 +30,14 @@ Window::Window(int width1, int height1, const char* title){
 		Window* win = reinterpret_cast<Window*>(glfwGetWindowUserPointer(window));
 		win->getEngine()->onClick(button, action, xpos, ypos);
 		});
+	*/
 	glfwSetWindowSizeCallback(window, [](GLFWwindow* window, int w, int h) -> void {
-		GL_CHECK(glViewport(0, 0, w, h));
+		glViewport(0, 0, w, h);
 		Window* win = (Window*)glfwGetWindowUserPointer(window);
 		win->width = w;
 		win->height = h;
-		win->notify();
 		});
-	
+	/*
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);

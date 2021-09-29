@@ -41,11 +41,19 @@ void Engine::init() {
 }
 
 void Engine::startRendering() {
-	float points[] = {
+	float points[] = 
+	/*{
 	0.0f, 0.5f, 0.0f,
 	0.5f, -0.5f, 0.0f,
    -0.5f, -0.5f, 0.0f
+	};*/
+	{
+	-0.5f, 0.5f, 0.0f,
+	-0.5f,-0.5f, 0.0f,
+     0.5f, 0.5f, 0.0f,
+	 0.5f,-0.5f, 0.0f
 	};
+
 
 	GLuint VBO = 0;
 	glGenBuffers(1, &VBO); // generate the VBO
@@ -78,7 +86,7 @@ void Engine::startRendering() {
 	glUseProgram(shaderProgram);
 	glBindVertexArray(VAO);
 	// draw triangles
-	glDrawArrays(GL_TRIANGLES, 0, 3); //mode,first,count
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4); //mode,first,count
 	// update other events like input handling
 	glfwPollEvents();
 	// put the stuff we’ve been drawing onto the display
