@@ -41,17 +41,12 @@ void Engine::init() {
 }
 
 void Engine::startRendering() {
-	float points[] = 
-	/*{
-	0.0f, 0.5f, 0.0f,
-	0.5f, -0.5f, 0.0f,
-   -0.5f, -0.5f, 0.0f
-	};*/
-	{
-	-0.5f, 0.5f, 0.0f,
-	-0.5f,-0.5f, 0.0f,
-     0.5f, 0.5f, 0.0f,
-	 0.5f,-0.5f, 0.0f
+
+const float points[4][2][4] = {
+   { { -.5f, -.5f, .5f, 1 }, { 1, 1, 0, 1 } },
+   { { -.5f, .5f, .5f, 1 },  { 1, 0, 0, 1 } },
+   { { .5f, -.5f, .5f, 1 },  { 0, 1, 0, 1 } },
+   { { .5f, .5f, .5f, 1 },   { 0, 0, 0, 1 } },
 	};
 
 
@@ -65,8 +60,11 @@ void Engine::startRendering() {
 	glGenVertexArrays(1, &VAO); //generate the VAO
 	glBindVertexArray(VAO); //bind the VAO
 	glEnableVertexAttribArray(0); //enable vertex attributes
+	glEnableVertexAttribArray(1);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(points[0]), (GLvoid*)0);
+	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(points[0]), (GLvoid*)(4*sizeof(GL_FLOAT)));
+	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 
 	//create and compile shaders
 	GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -79,6 +77,18 @@ void Engine::startRendering() {
 	glAttachShader(shaderProgram, fragmentShader);
 	glAttachShader(shaderProgram, vertexShader);
 	glLinkProgram(shaderProgram);
+
+	GLint status;
+	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &status);
+	if (status == GL_FALSE)
+	{
+		GLint infoLogLength;
+		glGetProgramiv(shaderProgram, GL_INFO_LOG_LENGTH, &infoLogLength);
+		GLchar* strInfoLog = new GLchar[infoLogLength + 1];
+		glGetProgramInfoLog(shaderProgram, infoLogLength, NULL, strInfoLog);
+		fprintf(stderr, "Linker failure: %s\n", strInfoLog);
+		delete[] strInfoLog;
+	}
 
 	while (!glfwWindowShouldClose(window->getWindow())) {
 	// clear color and depth buffer
