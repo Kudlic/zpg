@@ -18,7 +18,7 @@ public:
 
 	//void setViewport();
 	//Engine* getEngine();
-	GLFWwindow* getWindow();
+	GLFWwindow* getGLFWWindow();
 
 private:
 	//Engine* engine;
