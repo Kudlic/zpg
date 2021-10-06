@@ -31,30 +31,62 @@ void Engine::init() {
 void Engine::startRendering() {
 
 	float points1[] = {
-   -.5f, -.5f, .5f, 1, 0, 1, 0, 1,
-   -.5f, .5f, .5f, 1, 0, 1, 0, 1,
-   .5f, -.5f, .5f, 1 , 0, 1, 0, 1,
-   .5f, .5f, .5f, 1 , 0, 1, 0, 1
+   -.4f, -.7f, .5f, 1,		1, 1, .4f, 1,
+   -.4f,  .3f, .5f, 1,		1, 1, .4f, 1,
+    .4f, -.7f, .5f, 1 ,		1, 1, .4f, 1,
+    .4f,  .3f, .5f, 1 ,		1, 1, .4f, 1,
+
+	.4f, -.7f, -.5f, 1,		0.85f, 0.85f, .3f, 1,
+    .4f,  .3f, -.5f, 1,		0.85f, 0.85f, .3f, 1,
+
+	-.4f, -.7f, -.5f, 1,	1, 1, .4f, 1,
+	-.4f,  .3f, -.5f, 1,	1, 1, .4f, 1,
+
+	-.4f, -.7f, .5f, 1,		0.85f, 0.85f, .3f, 1,
+   -.4f,  .3f, .5f, 1,		0.85f, 0.85f, .3f, 1,
 	};
 	float points2[] = {
-   -.2f, -.8f, .5f, 1, 1, 1, 0, 1,
-   -.2f, .8f, .5f, 1, 0, 1, 1, 1,
-   .2f, -.8f, .5f, 1 , 1, 0, 1, 1,
-   .2f, .8f, .5f, 1 , 0, 1, 0, 1
+   -.6f,  .3f, .5f, 1,		1, 0, 0, 1,
+    .6f,  .3f, .5f, 1,		.7f, 0, 0, 1,
+	.0f , .9f, .5f, 1 ,		1, 0, 0, 1,
+	.6f,  .3f, -.5f, 1,		1, 0, 0, 1,
+	.0f , .9f, -.5f, 1 ,	.7f, 0, 0, 1,
+	-.6f,  .3f, -.5f, 1,	1, 0, 0, 1,
+	.0f , .9f, .5f, 1 ,		1, 0, 0, 1,
+	-.6f,  .3f, .5f, 1,		.7f, 0, 0, 1
+	};
+	float points3[] = {
+    .1f, -.7f, -.51f, 1,	.4f, .2f, .0f, 1,
+    .1f, -.2f, -.51f, 1,	.4f, .2f, .0f, 1,
+	.3f, -.7f, -.51f, 1 ,	.4f, .2f, .0f, 1,
+	.3f, -.2f, -.51f, 1 ,	.4f, .2f, .0f, 1
 	};
 
-	Shape *shape1 = new Shape(points1, 4, 4, 4);
-	Shape* shape2 = new Shape(points2, 4, 4, 4);
+	Shape *walls = new Shape(points1, 4, 4, 10);
+	Shape *roof = new Shape(points2, 4, 4, 8);
+	Shape* door = new Shape(points3, 4, 4, 4);
+
+	glEnable(GL_DEPTH_TEST);
+
+	glm::vec3 yAxis = glm::vec3(0.0f, 1.0f, 0.0f);
 
 	while (!glfwWindowShouldClose(this->window->getGLFWWindow())) {
 	// clear color and depth buffer
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	shape1->draw();
-	shape2->draw();
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		walls->draw();
+		walls->rotate(0.02f, yAxis);
+		roof->draw();
+		roof->rotate(0.02f, yAxis);
+		//roof->scale(glm::vec3(1.01f, 1.01f, 1.0f));
+		door->draw();
+		door->rotate(0.02f, yAxis);
+		//door->translate(glm::vec3(0.01f, 0.0f, 0.0f));
+
 	// update other events like input handling
-	glfwPollEvents();
+		glfwPollEvents();
 	// put the stuff we’ve been drawing onto the display
-	glfwSwapBuffers(this->window->getGLFWWindow());
+		glfwSwapBuffers(this->window->getGLFWWindow());
 	}
 
 glfwDestroyWindow(this->window->getGLFWWindow());

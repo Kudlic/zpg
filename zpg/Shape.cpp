@@ -11,6 +11,7 @@ Shape::Shape(float* points_colors, int pointLen, int colorLen, int pointCount) {
 	this->points_colors = points_colors;
 	this->pointLen = pointLen;
 	this->colorLen = colorLen;
+	this->transMat = glm::mat4(1.0f);
 
 	this->init();
 }
@@ -42,6 +43,8 @@ void Shape::init() {
 	glAttachShader(this->shaderProgram, vertexShader);
 	glLinkProgram(this->shaderProgram);
 
+	this->idModelTransform = glGetUniformLocation(this->shaderProgram, "modelMatrix");
+
 	GLint status;
 	glGetProgramiv(this->shaderProgram, GL_LINK_STATUS, &status);
 	if (status == GL_FALSE)
@@ -56,23 +59,18 @@ void Shape::init() {
 
 }
 void Shape::draw() {
-	/*
 	glUseProgram(this->shaderProgram);
+	glUniformMatrix4fv(this->idModelTransform, 1, GL_FALSE, &this->transMat[0][0]);
 	glBindVertexArray(this->VAO);
 	// draw triangles
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4); //mode,first,count*/
-
-	//while (!glfwWindowShouldClose(Engine::getInstance()->getWindow()->getGLFWWindow())) {
-		// clear color and depth buffer
-
-		glUseProgram(this->shaderProgram);
-		glBindVertexArray(this->VAO);
-		// draw triangles
-		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
-		// update other events like input handling
-		//glfwPollEvents();
-		// put the stuff we’ve been drawing onto the display
-		//glfwSwapBuffers(Engine::getInstance()->getWindow()->getGLFWWindow());
-	//}
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, this->pointCount);
+}
+void Shape::rotate(float angle, glm::vec3 axis) {
+	this->transMat = glm::rotate(this->transMat, angle, axis);
+}
+void Shape::translate(glm::vec3 transVec) {
+	this->transMat = glm::translate(this->transMat, transVec);
+}
+void Shape::scale(glm::vec3 scaleVec) {
+	this->transMat = glm::scale(this->transMat, scaleVec);
 }

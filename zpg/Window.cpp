@@ -54,7 +54,7 @@ Window::Window(int width1, int height1, const char* title){
 	glLoadIdentity();
 	glOrtho(-ratio, ratio, -1.f, 1.f, 1.f, -1.f);
 
-	//glClearColor(255, 255, 255, 255);
+	glClearColor(0.2, 0.2, 0.2, 0.2);
 }
 
 
