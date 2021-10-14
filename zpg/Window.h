@@ -3,11 +3,9 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-//class Engine;
-
 class Window {
 public:
-	Window(/*Engine* engine,*/ int width, int height, const char* title);
+	Window(int width, int height, const char* title);
 	~Window(); 
 	bool shouldClose() const;
 	//void swapBuffers() const;
@@ -17,11 +15,9 @@ public:
 	int getHeight();
 
 	//void setViewport();
-	//Engine* getEngine();
 	GLFWwindow* getGLFWWindow();
 
 private:
-	//Engine* engine;
 	GLFWwindow* window;
 	int width, height;
 };
