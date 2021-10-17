@@ -11,7 +11,7 @@ private:
 public:
 	Scene();
 	void Draw(GLfloat timeDelta);
-	Camera* gerCurrentCam();
+	Camera* getCurrentCam();
 	void AddCamera(Camera* cam, GLboolean setCurrent = true);
 	void AddObject(Object* obj);
 

@@ -1,11 +1,16 @@
 #include "Scene.h"
+#include "Utilities/MatrixHandler.h"
 Scene::Scene() {
 	currentCam = nullptr;
 }
-void Draw(GLfloat timeDelta) {
+void Scene::Draw(GLfloat timeDelta) {
+	for (Object* element : objects) {
+		element->draw();
+		MatrixHandler::rotate(element->getMatRef(), 0.02f, glm::vec3(0.0f, 1.0f, 0.0f));
 
+	}
 }
-Camera* Scene::gerCurrentCam() {
+Camera* Scene::getCurrentCam() {
 	return this->currentCam;
 }
 void Scene::AddCamera(Camera* cam, GLboolean setCurrent) {

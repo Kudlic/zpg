@@ -36,7 +36,8 @@ void Camera::CalcView() {
 
 }
 void Camera::Move(Camera_Movement direction) {
-	GLfloat velocity = Sensitivity * MovementSpeed;
+	GLfloat velocity = MovementSpeed;
+	printf("direction %d\n", direction);
 	switch (direction) {
 	case CAM_FORWARD:
 		Position += Orientation * velocity;
@@ -59,9 +60,9 @@ void Camera::Move(Camera_Movement direction) {
 	}
 	CalcView();
 }
-void Camera::Rotate(float xoffset, float yoffset, GLboolean constrainPitch) {
-	yaw += xoffset;
-	pitch += yoffset;
+void Camera::Rotate(double xoffset, double yoffset, GLboolean constrainPitch) {
+	yaw += xoffset * Sensitivity;
+	pitch -= yoffset * Sensitivity;
 
 	// make sure that when pitch is out of bounds, screen doesn't get flipped
 	if (constrainPitch)

@@ -1,3 +1,4 @@
+#pragma once
 #include <GL/glew.h>
 #include<GLFW/glfw3.h>
 #include<glm/glm.hpp>
@@ -39,6 +40,6 @@ public:
 	void CalcOrientation();
 	void CalcView();
 	void Move(Camera_Movement direction);
-	void Rotate(float xoffset, float yoffset, GLboolean constrainPitch = true);
+	void Rotate(double xoffset, double yoffset, GLboolean constrainPitch = true);
 
 };

@@ -5,6 +5,7 @@
 #include "Shaders/ShaderProg.h"
 #include "Utilities/MatrixHandler.h"
 #include "Camera.h"
+#include "Scene.h"
 
 
 Engine* Engine::instance = 0;
@@ -72,11 +73,18 @@ void Engine::startRendering() {
 	glm::vec3 xAxis = glm::vec3(1.0f, 0.0f, 0.0f);
 	glm::vec3 zAxis = glm::vec3(0.0f, 0.0f, 1.0f);
 
+	glfwSetCursorPos(window->getGLFWWindow(), (window->getWidth() / 2), (window->getHeight() / 2));
+
 	ShaderProg* sp = new ShaderProg(vertex_shader, fragment_shader);
 	Object* cube = new Object(new Model(points1,10 * (4 + 4)), sp);
 	Object* roof = new Object(new Model(points2, 8 * (4 + 4)), sp);
 
 	Camera* camera = new Camera(window->getWidth(), window->getHeight(), glm::vec3(0.0f, 0.0f, 5.0f));
+
+	this->currentScene = new Scene();
+	currentScene->AddCamera(camera);
+	currentScene->AddObject(cube);
+	currentScene->AddObject(roof);
 
 	glEnable(GL_DEPTH_TEST);
 
@@ -87,15 +95,10 @@ void Engine::startRendering() {
 		lastFrame = currentFrame;
 		// clear color and depth buffer
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		camera->UpdateShader(sp->getShaderProgram());
+		currentScene->getCurrentCam()->UpdateShader(sp->getShaderProgram());
+		currentScene->Draw(deltaTime);
+		processHeldKeys();
 
-		cube->draw();
-		roof->draw();
-		MatrixHandler::rotate(cube->getMatRef(), 0.02f, glm::vec3(0.0f, 1.0f, 0.0f));
-		MatrixHandler::rotate(roof->getMatRef(), 0.02f, glm::vec3(0.0f, 1.0f, 0.0f));
-
-		//camera->Move(CAM_LEFT);
-		camera->Rotate(1, 0);
 	// update other events like input handling
 		glfwPollEvents();
 	// put the stuff we’ve been drawing onto the display
@@ -130,7 +133,14 @@ void Engine::onKey(int key, int scancode, int action, int mods) {
 	return;
 }
 void Engine::onMove(double x, double y) {
-	
+	printf("move %f %f \n", x, y);
+	double xmove, ymove;
+	xmove = x - (window->getWidth() / 2);
+	ymove = y - (window->getHeight() / 2);
+
+	glfwSetCursorPos(window->getGLFWWindow(), (window->getWidth() / 2), (window->getHeight() / 2));
+
+	this->currentScene->getCurrentCam()->Rotate(xmove, ymove);
 }
 
 Engine::Engine() {
@@ -145,4 +155,30 @@ Engine* Engine::getInstance()
 	}
 
 	return instance;
+}
+void Engine::processHeldKeys() {
+	if (glfwGetKey(window->getGLFWWindow(), GLFW_KEY_W) == GLFW_PRESS)
+	{
+		currentScene->getCurrentCam()->Move(CAM_FORWARD);
+	}
+	if (glfwGetKey(window->getGLFWWindow(), GLFW_KEY_A) == GLFW_PRESS)
+	{
+		currentScene->getCurrentCam()->Move(CAM_LEFT);
+	}
+	if (glfwGetKey(window->getGLFWWindow(), GLFW_KEY_S) == GLFW_PRESS)
+	{
+		currentScene->getCurrentCam()->Move(CAM_BACKWARD);
+	}
+	if (glfwGetKey(window->getGLFWWindow(), GLFW_KEY_D) == GLFW_PRESS)
+	{
+		currentScene->getCurrentCam()->Move(CAM_RIGHT);
+	}
+	if (glfwGetKey(window->getGLFWWindow(), GLFW_KEY_SPACE) == GLFW_PRESS)
+	{
+		currentScene->getCurrentCam()->Move(CAM_UP);
+	}
+	if (glfwGetKey(window->getGLFWWindow(), GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
+	{
+		currentScene->getCurrentCam()->Move(CAM_DOWN);
+	}
 }
