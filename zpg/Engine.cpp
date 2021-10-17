@@ -1,12 +1,15 @@
 #include "Engine.h"
-#include "Fragment_shader.h"
-#include "Vertex_shader.h"
+#include "Shaders/Fragment_shader.h"
+#include "Shaders/Vertex_shader.h"
 #include "Object.h"
-#include "ShaderProg.h"
-#include "MatrixHandler.h"
+#include "Shaders/ShaderProg.h"
+#include "Utilities/MatrixHandler.h"
+#include "Camera.h"
 
 
 Engine* Engine::instance = 0;
+float deltaTime = 0.0f;	// time between current frame and last frame
+float lastFrame = 0.0f;
 
 void Engine::init() {
 
@@ -69,31 +72,30 @@ void Engine::startRendering() {
 	glm::vec3 xAxis = glm::vec3(1.0f, 0.0f, 0.0f);
 	glm::vec3 zAxis = glm::vec3(0.0f, 0.0f, 1.0f);
 
-	glm::mat4 viewMat = glm::lookAt(glm::vec3(0.0f, 0.0f, -5.0f), glm::vec3(0.0f, 0.0f, -5.0f) + glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	glm::mat4 projMat = glm::perspective(glm::radians(45.0f), 800.f / 600.f, 0.1f, 100.0f);
-
 	ShaderProg* sp = new ShaderProg(vertex_shader, fragment_shader);
-	Object* cube = new Object(new Model(points1,10 * (4+4)), sp);
+	Object* cube = new Object(new Model(points1,10 * (4 + 4)), sp);
 	Object* roof = new Object(new Model(points2, 8 * (4 + 4)), sp);
+
+	Camera* camera = new Camera(window->getWidth(), window->getHeight(), glm::vec3(0.0f, 0.0f, 5.0f));
 
 	glEnable(GL_DEPTH_TEST);
 
 
 	while (!glfwWindowShouldClose(this->window->getGLFWWindow())) {
+		float currentFrame = glfwGetTime();
+		deltaTime = currentFrame - lastFrame;
+		lastFrame = currentFrame;
 		// clear color and depth buffer
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		GLint idViewMat = glGetUniformLocation(cube->getShader()->getShaderProgram(), "viewMatrix");
-		GLint idProjMat = glGetUniformLocation(cube->getShader()->getShaderProgram(), "projectionMatrix");
-
-		glUniformMatrix4fv(idViewMat, 1, GL_FALSE, &viewMat[0][0]);
-		glUniformMatrix4fv(idProjMat, 1, GL_FALSE, &projMat[0][0]);
+		camera->UpdateShader(sp->getShaderProgram());
 
 		cube->draw();
 		roof->draw();
 		MatrixHandler::rotate(cube->getMatRef(), 0.02f, glm::vec3(0.0f, 1.0f, 0.0f));
 		MatrixHandler::rotate(roof->getMatRef(), 0.02f, glm::vec3(0.0f, 1.0f, 0.0f));
 
-		
+		//camera->Move(CAM_LEFT);
+		camera->Rotate(1, 0);
 	// update other events like input handling
 		glfwPollEvents();
 	// put the stuff we’ve been drawing onto the display
@@ -128,7 +130,7 @@ void Engine::onKey(int key, int scancode, int action, int mods) {
 	return;
 }
 void Engine::onMove(double x, double y) {
-
+	
 }
 
 Engine::Engine() {
