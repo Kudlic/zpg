@@ -10,7 +10,7 @@ void Object::draw() {
 	shaderProgram->useShader();
 	glUniformMatrix4fv(this->idModelTransform, 1, GL_FALSE, &this->transMat[0][0]);
 	this->model->getVAO()->Bind();
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, model->getPointNo());
+	glDrawArrays(model->getMode(), 0, model->getPointNo());
 
 }
 ShaderProg* Object::getShader() {

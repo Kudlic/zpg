@@ -1,14 +1,15 @@
 #include "Model.h"
 
-Model::Model(GLfloat* points, int size) {
+Model::Model(const GLfloat* points, int size, GLenum mode) {
 
-	pointNo = size / 8;
-	vbo = new VBO(points, sizeof(points)*size);
+	pointNo = size / 6;
+	this->mode = mode;
+	vbo = new VBO(points, size);
 
 	vao = new VAO();
 	vao->Bind();
-	vao->LinkAttrib(*vbo, 0, 4, GL_FLOAT, 8 * sizeof(GL_FLOAT), (GLvoid*)0);
-	vao->LinkAttrib(*vbo, 1, 4, GL_FLOAT, 8 * sizeof(GL_FLOAT), (GLvoid*)(4 * sizeof(GL_FLOAT)));
+	vao->LinkAttrib(*vbo, 0, 3, GL_FLOAT, 6 * sizeof(GL_FLOAT), (GLvoid*)0);
+	vao->LinkAttrib(*vbo, 1, 3, GL_FLOAT, 6 * sizeof(GL_FLOAT), (GLvoid*)(3 * sizeof(GL_FLOAT)));
 	vao->Unbind();
 	vbo->Unbind();
 }
@@ -22,4 +23,7 @@ VBO* Model::getVBO() {
 }
 int Model::getPointNo() {
 	return pointNo;
+}
+GLenum Model::getMode() {
+	return mode;
 }

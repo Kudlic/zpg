@@ -148,6 +148,7 @@
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Shaders\ShaderLoader.cpp" />
     <ClCompile Include="Shaders\ShaderProg.cpp" />
     <ClCompile Include="Utilities\MatrixHandler.cpp" />
     <ClCompile Include="VAO.cpp" />
@@ -158,9 +159,14 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Model.h" />
+    <ClInclude Include="Models\plain.h" />
+    <ClInclude Include="Models\sphere.h" />
+    <ClInclude Include="Models\suzi_flat.h" />
+    <ClInclude Include="Models\suzi_smooth.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Shaders\Fragment_shader.h" />
+    <ClInclude Include="Shaders\ShaderLoader.h" />
     <ClInclude Include="Shaders\ShaderProg.h" />
     <ClInclude Include="Shaders\Vertex_shader.h" />
     <ClInclude Include="Utilities\MatrixHandler.h" />

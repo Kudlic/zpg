@@ -6,6 +6,12 @@
 #include "Utilities/MatrixHandler.h"
 #include "Camera.h"
 #include "Scene.h"
+#include "Models/sphere.h"
+#include "Models/plain.h"
+#include "Models/suzi_flat.h"
+#include "Models/suzi_smooth.h"
+
+
 
 
 Engine* Engine::instance = 0;
@@ -37,36 +43,36 @@ void Engine::init() {
 
 void Engine::startRendering() {
 
-	float points1[] = {
-   -.4f, -.7f, .5f, 1,		1, 1, .4f, 1,
-   -.4f,  .3f, .5f, 1,		1, 1, .4f, 1,
-	.4f, -.7f, .5f, 1 ,		1, 1, .4f, 1,
-	.4f,  .3f, .5f, 1 ,		1, 1, .4f, 1,
+	const float points1[] = {
+   -.4f, -.7f, .5f, 		1, 1, .4f, 
+   -.4f,  .3f, .5f, 		1, 1, .4f, 
+	.4f, -.7f, .5f, 		1, 1, .4f, 
+	.4f,  .3f, .5f, 		1, 1, .4f, 
 
-	.4f, -.7f, -.5f, 1,		0.85f, 0.85f, .3f, 1,
-	.4f,  .3f, -.5f, 1,		0.85f, 0.85f, .3f, 1,
+	.4f, -.7f, -.5f, 		0.85f, 0.85f, .3f, 
+	.4f,  .3f, -.5f, 		0.85f, 0.85f, .3f, 
 
-	-.4f, -.7f, -.5f, 1,	1, 1, .4f, 1,
-	-.4f,  .3f, -.5f, 1,	1, 1, .4f, 1,
+	-.4f, -.7f, -.5f, 		1, 1, .4f, 
+	-.4f,  .3f, -.5f, 		1, 1, .4f, 
 
-	-.4f, -.7f, .5f, 1,		0.85f, 0.85f, .3f, 1,
-   -.4f,  .3f, .5f, 1,		0.85f, 0.85f, .3f, 1,
+	-.4f, -.7f, .5f, 		0.85f, 0.85f, .3f, 
+   -.4f,  .3f, .5f, 		0.85f, 0.85f, .3f, 
 	};
-	float points2[] = {
-   -.6f,  .3f, .75f, 1,		1, 0, 0, 1,
-	.6f,  .3f, .75f, 1,		.7f, 0, 0, 1,
-	.0f , .9f, .45f, 1 ,	1, 0, 0, 1,
-	.6f,  .3f, -.75f, 1,	1, 0, 0, 1,
-	.0f , .9f, -.45f, 1 ,	.7f, 0, 0, 1,
-	-.6f,  .3f, -.75f, 1,	1, 0, 0, 1,
-	.0f , .9f, .45f, 1 ,	1, 0, 0, 1,
-	-.6f,  .3f, .75f, 1,	.7f, 0, 0, 1
+	const float points2[] = {
+   -.6f,  .3f, .75f, 		1, 0, 0, 
+	.6f,  .3f, .75f, 		.7f, 0, 0,
+	.0f , .9f, .45f, 	1, 0, 0, 
+	.6f,  .3f, -.75f, 	1, 0, 0, 
+	.0f , .9f, -.45f, 	.7f, 0, 0,
+	-.6f,  .3f, -.75f, 	1, 0, 0, 
+	.0f , .9f, .45f, 	1, 0, 0, 
+	-.6f,  .3f, .75f, 	.7f, 0, 0
 	};
-	float points3[] = {
-	.1f, -.7f, -.51f, 1,	.4f, .2f, .0f, 1,
-	.1f, -.2f, -.51f, 1,	.4f, .2f, .0f, 1,
-	.3f, -.7f, -.51f, 1 ,	.4f, .2f, .0f, 1,
-	.3f, -.2f, -.51f, 1 ,	.4f, .2f, .0f, 1
+	const float points3[] = {
+	.1f, -.7f, -.51f,	.4f, .2f, .0f, 
+	.1f, -.2f, -.51f,	.4f, .2f, .0f, 
+	.3f, -.7f, -.51f, 	.4f, .2f, .0f, 
+	.3f, -.2f, -.51f, 	.4f, .2f, .0f, 
 	};
 
 	glm::vec3 yAxis = glm::vec3(0.0f, 1.0f, 0.0f);
@@ -76,8 +82,22 @@ void Engine::startRendering() {
 	glfwSetCursorPos(window->getGLFWWindow(), (window->getWidth() / 2), (window->getHeight() / 2));
 
 	ShaderProg* sp = new ShaderProg(vertex_shader, fragment_shader);
-	Object* cube = new Object(new Model(points1,10 * (4 + 4)), sp);
-	Object* roof = new Object(new Model(points2, 8 * (4 + 4)), sp);
+	Object* cube = new Object(new Model(points1, 10 * (3 + 3), GL_TRIANGLE_STRIP), sp);
+	Object* roof = new Object(new Model(points2, 8 * (3 + 3), GL_TRIANGLE_STRIP), sp);
+	Object* sphereO = new Object(new Model(sphere, 2880 * (3 + 3), GL_TRIANGLES), sp);
+	MatrixHandler::translate(sphereO->getMatRef(), glm::vec3(0.0f, 0.0f, 10.0f));
+
+	Object* plainO = new Object(new Model(plain, 6 * (3 + 3), GL_TRIANGLES), sp);
+	MatrixHandler::translate(plainO->getMatRef(), glm::vec3(-5.0f, 0.0f, 5.0f));
+	MatrixHandler::rotate(plainO->getMatRef(), 45 , zAxis);
+
+
+	Object* suziFlatO = new Object(new Model(suziFlat, 2904 * (3 + 3), GL_TRIANGLES), sp);
+	MatrixHandler::translate(suziFlatO->getMatRef(), glm::vec3(5.0f, 0.0f, 2.0f));
+
+	Object* suziSmoothO = new Object(new Model(suziSmooth, 2904 * (3 + 3), GL_TRIANGLES), sp);
+	MatrixHandler::translate(suziSmoothO->getMatRef(), glm::vec3(5.0f, 0.0f, 8.0f));
+
 
 	Camera* camera = new Camera(window->getWidth(), window->getHeight(), glm::vec3(0.0f, 0.0f, 5.0f));
 
@@ -85,6 +105,10 @@ void Engine::startRendering() {
 	currentScene->AddCamera(camera);
 	currentScene->AddObject(cube);
 	currentScene->AddObject(roof);
+	currentScene->AddObject(sphereO);
+	currentScene->AddObject(plainO);
+	currentScene->AddObject(suziFlatO);
+	currentScene->AddObject(suziSmoothO);
 
 	glEnable(GL_DEPTH_TEST);
 
@@ -141,6 +165,7 @@ void Engine::onMove(double x, double y) {
 	glfwSetCursorPos(window->getGLFWWindow(), (window->getWidth() / 2), (window->getHeight() / 2));
 
 	this->currentScene->getCurrentCam()->Rotate(xmove, ymove);
+
 }
 
 Engine::Engine() {

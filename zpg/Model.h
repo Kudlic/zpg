@@ -10,10 +10,11 @@ private:
     int pointNo;
     VAO* vao;
     VBO* vbo;
+    GLenum mode;
 public:
-    Model(GLfloat *points, int size);
+    Model(const GLfloat *points, int size, GLenum mode = GL_TRIANGLES);
     VAO* getVAO();
     VBO* getVBO();
     int getPointNo();
-
+    GLenum getMode();
 };
