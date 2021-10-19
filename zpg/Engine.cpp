@@ -100,6 +100,7 @@ void Engine::startRendering() {
 
 
 	Camera* camera = new Camera(window->getWidth(), window->getHeight(), glm::vec3(0.0f, 0.0f, 5.0f));
+	camera->Attach(sp);
 
 	this->currentScene = new Scene();
 	currentScene->AddCamera(camera);
@@ -119,7 +120,7 @@ void Engine::startRendering() {
 		lastFrame = currentFrame;
 		// clear color and depth buffer
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		currentScene->getCurrentCam()->UpdateShader(sp->getShaderProgram());
+		//currentScene->getCurrentCam()->UpdateShader(sp->getShaderProgram());
 		currentScene->Draw(deltaTime);
 		processHeldKeys();
 

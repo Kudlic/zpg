@@ -169,6 +169,8 @@
     <ClInclude Include="Shaders\ShaderLoader.h" />
     <ClInclude Include="Shaders\ShaderProg.h" />
     <ClInclude Include="Shaders\Vertex_shader.h" />
+    <ClInclude Include="Utilities\IObserver.h" />
+    <ClInclude Include="Utilities\ISubject.h" />
     <ClInclude Include="Utilities\MatrixHandler.h" />
     <ClInclude Include="VAO.h" />
     <ClInclude Include="VBO.h" />

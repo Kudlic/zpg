@@ -6,6 +6,8 @@
 #include<glm/gtc/type_ptr.hpp>
 #include<glm/gtx/rotate_vector.hpp>
 #include<glm/gtx/vector_angle.hpp>
+#include "Utilities/ISubject.h"
+#include <vector>
 
 const glm::vec3 WorldUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
@@ -18,9 +20,10 @@ enum Camera_Movement {
 	CAM_DOWN
 };
 
-class Camera
+class Camera : public ISubject
 {
 public:
+	std::vector<IObserver*> observers;
 	// Stores the main vectors of the camera
 	glm::vec3 Position;
 	glm::vec3 Orientation = glm::vec3(0.0f, 0.0f, -1.0f);
@@ -41,5 +44,8 @@ public:
 	void CalcView();
 	void Move(Camera_Movement direction);
 	void Rotate(double xoffset, double yoffset, GLboolean constrainPitch = true);
+	virtual void Attach(IObserver* observer) override;
+	virtual void Detach(IObserver* observer) override;
+	virtual void Notify() override;
 
 };

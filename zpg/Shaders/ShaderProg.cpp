@@ -33,3 +33,11 @@ void ShaderProg::useShader() {
 GLuint ShaderProg::getShaderProgram() {
 	return shaderProgram;
 }
+
+void ShaderProg::Update(glm::mat4 viewMat, glm::mat4 projMat) {
+	GLint idViewMat = glGetUniformLocation(shaderProgram, "viewMatrix");
+	GLint idProjMat = glGetUniformLocation(shaderProgram, "projectionMatrix");
+
+	glUniformMatrix4fv(idViewMat, 1, GL_FALSE, &viewMat[0][0]);
+	glUniformMatrix4fv(idProjMat, 1, GL_FALSE, &projMat[0][0]);
+}

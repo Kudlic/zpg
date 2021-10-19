@@ -33,7 +33,7 @@ void Camera::CalcOrientation() {
 }
 void Camera::CalcView() {
 	viewMat = glm::lookAt(Position, Position + Orientation, WorldUp);
-
+	Notify();
 }
 void Camera::Move(Camera_Movement direction) {
 	GLfloat velocity = MovementSpeed;
@@ -75,3 +75,21 @@ void Camera::Rotate(double xoffset, double yoffset, GLboolean constrainPitch) {
 	CalcOrientation();
 	CalcView();
 }
+
+//Observer functions
+
+void Camera::Attach(IObserver* observer)  {
+	observers.push_back(observer);
+}
+void Camera::Detach(IObserver* observer)  {
+	auto iterator = std::find(observers.begin(), observers.end(), observer);
+
+	if (iterator != observers.end()) { // observer found
+		observers.erase(iterator); // remove the observer
+	}
+}
+void Camera::Notify()  {
+	for (IObserver* observer : observers) { // notify all observers
+		observer->Update(viewMat, projMat);
+	}
+} 
