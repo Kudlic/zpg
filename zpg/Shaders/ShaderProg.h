@@ -17,7 +17,10 @@ class ShaderProg : public IObserver
 {
 private:
 	GLuint shaderProgram;
+	glm::mat4 viewMat;
+	glm::mat4 projMat;
 public:
+	ShaderProg(GLuint shaderProgram);
 	ShaderProg(const char* vertex_shader, const char* fragment_shader);
 	void useShader();
 	GLuint getShaderProgram();

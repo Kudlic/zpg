@@ -1,5 +1,8 @@
 #include "ShaderProg.h"
 
+ShaderProg::ShaderProg(GLuint shaderProgID) {
+	this->shaderProgram = shaderProgID;
+}
 ShaderProg::ShaderProg(const char* vertex_shader, const char* fragment_shader) {
 	GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
 	glShaderSource(vertexShader, 1, &vertex_shader, NULL);
@@ -28,6 +31,12 @@ ShaderProg::ShaderProg(const char* vertex_shader, const char* fragment_shader) {
 
 void ShaderProg::useShader() {
 	glUseProgram(shaderProgram);
+
+	GLint idViewMat = glGetUniformLocation(shaderProgram, "viewMatrix");
+	GLint idProjMat = glGetUniformLocation(shaderProgram, "projectionMatrix");
+
+	glUniformMatrix4fv(idViewMat, 1, GL_FALSE, &viewMat[0][0]);
+	glUniformMatrix4fv(idProjMat, 1, GL_FALSE, &projMat[0][0]);
 }
 
 GLuint ShaderProg::getShaderProgram() {
@@ -35,9 +44,12 @@ GLuint ShaderProg::getShaderProgram() {
 }
 
 void ShaderProg::Update(glm::mat4 viewMat, glm::mat4 projMat) {
+	this->viewMat = viewMat;
+	this->projMat = projMat;
+	/*
 	GLint idViewMat = glGetUniformLocation(shaderProgram, "viewMatrix");
 	GLint idProjMat = glGetUniformLocation(shaderProgram, "projectionMatrix");
 
 	glUniformMatrix4fv(idViewMat, 1, GL_FALSE, &viewMat[0][0]);
-	glUniformMatrix4fv(idProjMat, 1, GL_FALSE, &projMat[0][0]);
+	glUniformMatrix4fv(idProjMat, 1, GL_FALSE, &projMat[0][0]);*/
 }

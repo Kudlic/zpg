@@ -1,8 +1,9 @@
 #include "Engine.h"
 #include "Shaders/Fragment_shader.h"
 #include "Shaders/Vertex_shader.h"
-#include "Object.h"
 #include "Shaders/ShaderProg.h"
+#include "Shaders/ShaderLoader.h"
+#include "Object.h"
 #include "Utilities/MatrixHandler.h"
 #include "Camera.h"
 #include "Scene.h"
@@ -81,26 +82,43 @@ void Engine::startRendering() {
 
 	glfwSetCursorPos(window->getGLFWWindow(), (window->getWidth() / 2), (window->getHeight() / 2));
 
-	ShaderProg* sp = new ShaderProg(vertex_shader, fragment_shader);
-	Object* cube = new Object(new Model(points1, 10 * (3 + 3), GL_TRIANGLE_STRIP), sp);
-	Object* roof = new Object(new Model(points2, 8 * (3 + 3), GL_TRIANGLE_STRIP), sp);
-	Object* sphereO = new Object(new Model(sphere, 2880 * (3 + 3), GL_TRIANGLES), sp);
+	//ShaderProg* sp = new ShaderProg(vertex_shader, fragment_shader);
+	GLuint colShID = 0;
+	GLuint constShID = 0;
+	GLuint lambertShID = 0;
+
+	new ShaderLoader("./Shaders/vertex_shader.glsl", "./Shaders/fragment_shader.glsl", &colShID);
+	new ShaderLoader("./Shaders/vertex_shader_constant.glsl", "./Shaders/fragment_shader_constant.glsl", &constShID);
+	new ShaderLoader("./Shaders/vertex_shader_lambert.glsl", "./Shaders/fragment_shader_lambert.glsl", &lambertShID);
+
+
+	ShaderProg* colSp = new ShaderProg(colShID);
+	ShaderProg* constSp = new ShaderProg(constShID);
+	ShaderProg* lambSp = new ShaderProg(lambertShID);
+
+
+	Object* cube = new Object(new Model(points1, 10 * (3 + 3), 6, 3, 2, GL_TRIANGLE_STRIP), constSp);
+	Object* roof = new Object(new Model(points2, 8  * (3 + 3), 6, 3, 2, GL_TRIANGLE_STRIP), colSp);
+	Object* sphereO = new Object(new Model(sphere, 2880 * (3 + 3), 6), colSp);
 	MatrixHandler::translate(sphereO->getMatRef(), glm::vec3(0.0f, 0.0f, 10.0f));
 
-	Object* plainO = new Object(new Model(plain, 6 * (3 + 3), GL_TRIANGLES), sp);
-	MatrixHandler::translate(plainO->getMatRef(), glm::vec3(-5.0f, 0.0f, 5.0f));
-	MatrixHandler::rotate(plainO->getMatRef(), 45 , zAxis);
+	Object* plainO = new Object(new Model(plain, 6 * (3 + 3), 6), colSp);
+	MatrixHandler::scale(plainO->getMatRef(), glm::vec3(.3f, .3f, .3f));
+	MatrixHandler::translate(plainO->getMatRef(), glm::vec3(0.0f, -1.0f, 5.0f));
 
 
-	Object* suziFlatO = new Object(new Model(suziFlat, 2904 * (3 + 3), GL_TRIANGLES), sp);
+
+	Object* suziFlatO = new Object(new Model(suziFlat, 2904 * (3 + 3), 6, 3, 2), lambSp);
 	MatrixHandler::translate(suziFlatO->getMatRef(), glm::vec3(5.0f, 0.0f, 2.0f));
 
-	Object* suziSmoothO = new Object(new Model(suziSmooth, 2904 * (3 + 3), GL_TRIANGLES), sp);
+	Object* suziSmoothO = new Object(new Model(suziSmooth, 2904 * (3 + 3), 6), colSp);
 	MatrixHandler::translate(suziSmoothO->getMatRef(), glm::vec3(5.0f, 0.0f, 8.0f));
 
 
 	Camera* camera = new Camera(window->getWidth(), window->getHeight(), glm::vec3(0.0f, 0.0f, 5.0f));
-	camera->Attach(sp);
+	camera->Attach(constSp);
+	camera->Attach(colSp);
+	camera->Attach(lambSp);
 
 	this->currentScene = new Scene();
 	currentScene->AddCamera(camera);

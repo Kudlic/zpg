@@ -12,7 +12,7 @@ private:
     VBO* vbo;
     GLenum mode;
 public:
-    Model(const GLfloat *points, int size, GLenum mode = GL_TRIANGLES);
+    Model(const GLfloat *points, int size, int lineLen, int vecLen = 3, int uniformCount = 0, GLenum mode = GL_TRIANGLES);
     VAO* getVAO();
     VBO* getVBO();
     int getPointNo();

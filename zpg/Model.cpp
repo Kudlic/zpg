@@ -1,15 +1,24 @@
 #include "Model.h"
 
-Model::Model(const GLfloat* points, int size, GLenum mode) {
+Model::Model(const GLfloat* points, int size, int lineLen, int vecLen, int uniformCount, GLenum mode) {
 
-	pointNo = size / 6;
+	pointNo = size / lineLen;
 	this->mode = mode;
 	vbo = new VBO(points, size);
 
+	int i_top = 0;
+
+	if (uniformCount == 0)
+		i_top = lineLen / vecLen;
+	else
+		i_top = uniformCount;
+
+
 	vao = new VAO();
 	vao->Bind();
-	vao->LinkAttrib(*vbo, 0, 3, GL_FLOAT, 6 * sizeof(GL_FLOAT), (GLvoid*)0);
-	vao->LinkAttrib(*vbo, 1, 3, GL_FLOAT, 6 * sizeof(GL_FLOAT), (GLvoid*)(3 * sizeof(GL_FLOAT)));
+	for(int i =0; i < i_top; i++){
+		vao->LinkAttrib(*vbo, i, vecLen, GL_FLOAT, lineLen * sizeof(GL_FLOAT), (GLvoid*)(i* vecLen * sizeof(GL_FLOAT)));
+	}
 	vao->Unbind();
 	vbo->Unbind();
 }

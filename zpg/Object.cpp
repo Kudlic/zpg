@@ -9,6 +9,7 @@ Object::Object(Model* model, ShaderProg* shaderProgram) {
 void Object::draw() {
 	shaderProgram->useShader();
 	glUniformMatrix4fv(this->idModelTransform, 1, GL_FALSE, &this->transMat[0][0]);
+
 	this->model->getVAO()->Bind();
 	glDrawArrays(model->getMode(), 0, model->getPointNo());
 

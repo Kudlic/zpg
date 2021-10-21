@@ -7,6 +7,7 @@ class Scene
 private:
 	std::vector <Object*> objects;
 	std::vector <Camera*> cameras;
+	glm::vec3 lightPos;
 	Camera* currentCam;
 public:
 	Scene();
