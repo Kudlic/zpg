@@ -86,15 +86,21 @@ void Engine::startRendering() {
 	GLuint colShID = 0;
 	GLuint constShID = 0;
 	GLuint lambertShID = 0;
+	GLuint phongShID = 0;
+
 
 	new ShaderLoader("./Shaders/vertex_shader.glsl", "./Shaders/fragment_shader.glsl", &colShID);
 	new ShaderLoader("./Shaders/vertex_shader_constant.glsl", "./Shaders/fragment_shader_constant.glsl", &constShID);
 	new ShaderLoader("./Shaders/vertex_shader_lambert.glsl", "./Shaders/fragment_shader_lambert.glsl", &lambertShID);
+	new ShaderLoader("./Shaders/vertex_shader_phong.glsl", "./Shaders/fragment_shader_phong.glsl", &phongShID);
+
 
 
 	ShaderProg* colSp = new ShaderProg(colShID);
 	ShaderProg* constSp = new ShaderProg(constShID);
 	ShaderProg* lambSp = new ShaderProg(lambertShID);
+	ShaderProg* phongSp = new ShaderProg(phongShID);
+
 
 
 	Object* cube = new Object(new Model(points1, 10 * (3 + 3), 6, 3, 2, GL_TRIANGLE_STRIP), constSp);
@@ -111,7 +117,7 @@ void Engine::startRendering() {
 	Object* suziFlatO = new Object(new Model(suziFlat, 2904 * (3 + 3), 6, 3, 2), lambSp);
 	MatrixHandler::translate(suziFlatO->getMatRef(), glm::vec3(5.0f, 0.0f, 2.0f));
 
-	Object* suziSmoothO = new Object(new Model(suziSmooth, 2904 * (3 + 3), 6), colSp);
+	Object* suziSmoothO = new Object(new Model(suziSmooth, 2904 * (3 + 3), 6, 3, 2), phongSp);
 	MatrixHandler::translate(suziSmoothO->getMatRef(), glm::vec3(5.0f, 0.0f, 8.0f));
 
 
@@ -119,6 +125,8 @@ void Engine::startRendering() {
 	camera->Attach(constSp);
 	camera->Attach(colSp);
 	camera->Attach(lambSp);
+	camera->Attach(phongSp);
+
 
 	this->currentScene = new Scene();
 	currentScene->AddCamera(camera);

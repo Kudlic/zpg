@@ -43,9 +43,10 @@ GLuint ShaderProg::getShaderProgram() {
 	return shaderProgram;
 }
 
-void ShaderProg::Update(glm::mat4 viewMat, glm::mat4 projMat) {
+void ShaderProg::Update(glm::mat4 viewMat, glm::mat4 projMat, glm::vec3 camPos) {
 	this->viewMat = viewMat;
 	this->projMat = projMat;
+	this->cameraPos = camPos;
 	/*
 	GLint idViewMat = glGetUniformLocation(shaderProgram, "viewMatrix");
 	GLint idProjMat = glGetUniformLocation(shaderProgram, "projectionMatrix");

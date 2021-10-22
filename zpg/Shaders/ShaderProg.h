@@ -19,10 +19,11 @@ private:
 	GLuint shaderProgram;
 	glm::mat4 viewMat;
 	glm::mat4 projMat;
+	glm::vec3 cameraPos;
 public:
 	ShaderProg(GLuint shaderProgram);
 	ShaderProg(const char* vertex_shader, const char* fragment_shader);
 	void useShader();
 	GLuint getShaderProgram();
-	virtual void Update(glm::mat4 viewMat, glm::mat4 projMat) override;
+	virtual void Update(glm::mat4 viewMat, glm::mat4 projMat, glm::vec3 camPos) override;
 };

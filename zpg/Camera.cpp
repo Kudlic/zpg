@@ -90,6 +90,6 @@ void Camera::Detach(IObserver* observer)  {
 }
 void Camera::Notify()  {
 	for (IObserver* observer : observers) { // notify all observers
-		observer->Update(viewMat, projMat);
+		observer->Update(viewMat, projMat, Position);
 	}
 } 
