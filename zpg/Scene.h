@@ -15,6 +15,6 @@ public:
 	Camera* getCurrentCam();
 	void AddCamera(Camera* cam, GLboolean setCurrent = true);
 	void AddObject(Object* obj);
-
+	void SetLightPos(glm::vec3 lightPos);
 };
 

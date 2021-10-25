@@ -7,10 +7,7 @@ Scene::Scene() {
 void Scene::Draw(GLfloat timeDelta) {
 	for (Object* element : objects) {
 		glUniform3fv(glGetUniformLocation(element->getShader()->getShaderProgram(), "lightPos"), 1, glm::value_ptr(this->lightPos));
-
 		element->draw();
-		MatrixHandler::rotate(element->getMatRef(), 0.02f, glm::vec3(0.0f, 1.0f, 0.0f));
-
 	}
 }
 Camera* Scene::getCurrentCam() {
@@ -23,4 +20,7 @@ void Scene::AddCamera(Camera* cam, GLboolean setCurrent) {
 }
 void Scene::AddObject(Object* obj) {
 	objects.push_back(obj);
+}
+void Scene::SetLightPos(glm::vec3 lightPos) {
+	this->lightPos = lightPos;
 }

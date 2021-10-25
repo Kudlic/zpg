@@ -5,7 +5,6 @@ layout(location=1) in vec3 in_Normal;
 uniform mat4 modelMatrix;
 uniform mat4 viewMatrix;
 uniform mat4 projectionMatrix;
-uniform vec3 lightPos;
 
 out vec4 ex_worldPosition;
 out vec3 ex_worldNormal;

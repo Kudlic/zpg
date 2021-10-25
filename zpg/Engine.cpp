@@ -106,6 +106,7 @@ void Engine::startRendering() {
 	Object* cube = new Object(new Model(points1, 10 * (3 + 3), 6, 3, 2, GL_TRIANGLE_STRIP), constSp);
 	Object* roof = new Object(new Model(points2, 8  * (3 + 3), 6, 3, 2, GL_TRIANGLE_STRIP), colSp);
 	Object* sphereO = new Object(new Model(sphere, 2880 * (3 + 3), 6), colSp);
+	sphereO->setRotation(0.8f, glm::vec3(.0f, .0f, 1.0f));
 	MatrixHandler::translate(sphereO->getMatRef(), glm::vec3(0.0f, 0.0f, 10.0f));
 
 	Object* plainO = new Object(new Model(plain, 6 * (3 + 3), 6), colSp);
@@ -115,9 +116,11 @@ void Engine::startRendering() {
 
 
 	Object* suziFlatO = new Object(new Model(suziFlat, 2904 * (3 + 3), 6, 3, 2), lambSp);
+	suziFlatO->setRotation(0.02f, glm::vec3(.0f, 1.0f, .0f));
 	MatrixHandler::translate(suziFlatO->getMatRef(), glm::vec3(5.0f, 0.0f, 2.0f));
 
 	Object* suziSmoothO = new Object(new Model(suziSmooth, 2904 * (3 + 3), 6, 3, 2), phongSp);
+	suziSmoothO->setRotation(-0.02f, glm::vec3(.0f, 1.0f, .0f));
 	MatrixHandler::translate(suziSmoothO->getMatRef(), glm::vec3(5.0f, 0.0f, 8.0f));
 
 
@@ -136,6 +139,23 @@ void Engine::startRendering() {
 	currentScene->AddObject(plainO);
 	currentScene->AddObject(suziFlatO);
 	currentScene->AddObject(suziSmoothO);
+
+	Scene* scenaNemca = new Scene();
+	Object* sphereO1 = new Object(new Model(sphere, 2880 * (3 + 3), 6), phongSp);
+		MatrixHandler::translate(sphereO1->getMatRef(), glm::vec3(-2.0f, 0.0f, 0.0f));
+	Object* sphereO2 = new Object(new Model(sphere, 2880 * (3 + 3), 6), phongSp);
+		MatrixHandler::translate(sphereO2->getMatRef(), glm::vec3(2.0f, 0.0f, 0.0f));
+	Object* sphereO3 = new Object(new Model(sphere, 2880 * (3 + 3), 6), phongSp);	
+		MatrixHandler::translate(sphereO3->getMatRef(), glm::vec3(0.0f, 2.0f, 0.0f));
+	Object* sphereO4 = new Object(new Model(sphere, 2880 * (3 + 3), 6), phongSp);
+		MatrixHandler::translate(sphereO4->getMatRef(), glm::vec3(0.0f, -2.0f, 0.0f));
+	scenaNemca->AddObject(sphereO1);
+	scenaNemca->AddObject(sphereO2);
+	scenaNemca->AddObject(sphereO3);
+	scenaNemca->AddObject(sphereO4);
+	scenaNemca->SetLightPos(glm::vec3(.0f, .0f, .0f));
+	scenaNemca->AddCamera(camera);
+	currentScene = scenaNemca;
 
 	glEnable(GL_DEPTH_TEST);
 
@@ -180,6 +200,10 @@ void Engine::onKey(int key, int scancode, int action, int mods) {
 	}
 	if (action == GLFW_RELEASE) {
 		printf("release %d %d %d %d\n", key, scancode, action, mods);
+	}
+	if (action == GLFW_PRESS && key == GLFW_KEY_ESCAPE) {
+		printf("Zaviram\n");
+		glfwSetWindowShouldClose(window->getGLFWWindow(), GLFW_TRUE);
 	}
 	return;
 }

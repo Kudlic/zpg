@@ -11,6 +11,8 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include "../Utilities/IObserver.h"
+#include<glm/gtc/type_ptr.hpp>
+
 
 
 class ShaderProg : public IObserver 
