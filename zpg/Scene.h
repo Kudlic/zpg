@@ -10,11 +10,12 @@ private:
 	glm::vec3 lightPos;
 	Camera* currentCam;
 public:
-	Scene();
-	void Draw(GLfloat timeDelta);
+	GLint sceneSeq;
+	Scene(GLint sceneSeq);
+	void draw(GLfloat timeDelta);
 	Camera* getCurrentCam();
-	void AddCamera(Camera* cam, GLboolean setCurrent = true);
-	void AddObject(Object* obj);
-	void SetLightPos(glm::vec3 lightPos);
+	void addCamera(Camera* cam, GLboolean setCurrent = true);
+	void addObject(Object* obj);
+	void setLightPos(glm::vec3 lightPos);
 };
 

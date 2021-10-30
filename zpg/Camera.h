@@ -9,7 +9,7 @@
 #include "Utilities/ISubject.h"
 #include <vector>
 
-const glm::vec3 WorldUp = glm::vec3(0.0f, 1.0f, 0.0f);
+const glm::vec3 worldUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
 enum Camera_Movement {
 	CAM_FORWARD,
@@ -25,27 +25,27 @@ class Camera : public ISubject
 public:
 	std::vector<IObserver*> observers;
 	// Stores the main vectors of the camera
-	glm::vec3 Position;
-	glm::vec3 Orientation = glm::vec3(0.0f, 0.0f, -1.0f);
-	glm::vec3 Up = glm::vec3(0.0f, 1.0f, 0.0f);
-	glm::vec3 Right = glm::vec3(0.0f, 1.0f, 0.0f);
+	glm::vec3 position;
+	glm::vec3 orientation = glm::vec3(0.0f, 0.0f, -1.0f);
+	glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
+	glm::vec3 right = glm::vec3(0.0f, 1.0f, 0.0f);
 	glm::mat4 viewMat;
 	glm::mat4 projMat;
-	GLfloat MovementSpeed;
-	GLfloat Sensitivity = 0.05f;
+	GLfloat movementSpeed;
+	GLfloat sensitivity = 0.05f;
 	GLfloat pitch;
 	GLfloat yaw;
 
 	// Camera constructor to set up initial values
 	Camera(int width, int height, glm::vec3 position);
 
-	void UpdateShader(GLuint shaderProg);
-	void CalcOrientation();
-	void CalcView();
-	void Move(Camera_Movement direction);
-	void Rotate(double xoffset, double yoffset, GLboolean constrainPitch = true);
-	virtual void Attach(IObserver* observer) override;
-	virtual void Detach(IObserver* observer) override;
-	virtual void Notify() override;
+	void updateShader(GLuint shaderProg);
+	void calcOrientation();
+	void calcView();
+	void move(Camera_Movement direction);
+	void rotate(double xoffset, double yoffset, GLboolean constrainPitch = true);
+	virtual void attach(IObserver* observer) override;
+	virtual void detach(IObserver* observer) override;
+	virtual void notify() override;
 
 };

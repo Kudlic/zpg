@@ -15,12 +15,12 @@ Model::Model(const GLfloat* points, int size, int lineLen, int vecLen, int unifo
 
 
 	vao = new VAO();
-	vao->Bind();
+	vao->bind();
 	for(int i =0; i < i_top; i++){
-		vao->LinkAttrib(*vbo, i, vecLen, GL_FLOAT, lineLen * sizeof(GL_FLOAT), (GLvoid*)(i* vecLen * sizeof(GL_FLOAT)));
+		vao->linkAttrib(*vbo, i, vecLen, GL_FLOAT, lineLen * sizeof(GL_FLOAT), (GLvoid*)(i* vecLen * sizeof(GL_FLOAT)));
 	}
-	vao->Unbind();
-	vbo->Unbind();
+	vao->unbind();
+	vbo->unbind();
 }
 
 VAO* Model::getVAO() {

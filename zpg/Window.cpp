@@ -29,13 +29,13 @@ Window::Window(int width1, int height1, const char* title){
 		glfwGetCursorPos(window, &xpos, &ypos);
 		Engine::getInstance()->onClick(button, action, xpos, ypos);
 		});
-	/*
+	
 	glfwSetWindowSizeCallback(window, [](GLFWwindow* window, int w, int h) -> void {
 		glViewport(0, 0, w, h);
 		Window* win = (Window*)glfwGetWindowUserPointer(window);
 		win->width = w;
 		win->height = h;
-		});*/
+		});
 	/*
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);

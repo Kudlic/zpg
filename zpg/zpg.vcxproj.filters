@@ -110,5 +110,14 @@
     <ClInclude Include="Utilities\ISubject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Models\bushes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\gift.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\tree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

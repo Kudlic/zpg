@@ -11,7 +11,8 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include "../Utilities/IObserver.h"
-#include<glm/gtc/type_ptr.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#include "ShaderLoader.h"
 
 
 
@@ -27,5 +28,5 @@ public:
 	ShaderProg(const char* vertex_shader, const char* fragment_shader);
 	void useShader();
 	GLuint getShaderProgram();
-	virtual void Update(glm::mat4 viewMat, glm::mat4 projMat, glm::vec3 camPos) override;
+	virtual void update(glm::mat4 viewMat, glm::mat4 projMat, glm::vec3 camPos) override;
 };
