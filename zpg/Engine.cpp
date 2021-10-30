@@ -7,13 +7,7 @@
 #include "Utilities/MatrixHandler.h"
 #include "Camera.h"
 #include "Scene.h"
-#include "Models/sphere.h"
-#include "Models/plain.h"
-#include "Models/suzi_flat.h"
-#include "Models/suzi_smooth.h"
-#include "Models/tree.h"
-#include "Models/bushes.h"
-#include "Models/gift.h"
+#include "ModelFactory.h"
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>       /* time */
 
@@ -93,19 +87,20 @@ void Engine::initScenes() {
 	Object* cube = new Object(Model::create(points1, 10, 6).positionAttrib(0).mode(GL_TRIANGLE_STRIP).build(), constSp);
 
 	Object* roof = new Object(Model::create(points2, 8, 6).positionAttrib(0).colorAttrib(3).mode(GL_TRIANGLE_STRIP).build(), colSp);
-	Object* sphereO = new Object(Model::create(sphere, 2880, 6).positionAttrib(0).colorAttrib(3).build(), colSp);
+
+	Object* sphereO = new Object(ModelFactory::premade(ModelType::sphereC), colSp);
 	sphereO->setRotation(0.8f, glm::vec3(.0f, .0f, 1.0f));
 	MatrixHandler::translate(sphereO->getMatRef(), glm::vec3(0.0f, 0.0f, 10.0f));
 
-	Object* plainO = new Object(Model::create(plain, 6, 6).positionAttrib(0).normalAttrib(3).build(), phongSp);
+	Object* plainO = new Object(ModelFactory::premade(ModelType::plainN), phongSp);
 	MatrixHandler::scale(plainO->getMatRef(), glm::vec3(.3f, .3f, .3f));
 	MatrixHandler::translate(plainO->getMatRef(), glm::vec3(0.0f, -1.0f, 5.0f));
 	
-	Object* suziFlatO = new Object(Model::create(suziFlat, 2904, 6).positionAttrib(0).normalAttrib(3).build(), lambSp);
+	Object* suziFlatO = new Object(ModelFactory::premade(ModelType::suziFlatN), lambSp);
 	suziFlatO->setRotation(0.02f, glm::vec3(.0f, 1.0f, .0f));
 	MatrixHandler::translate(suziFlatO->getMatRef(), glm::vec3(5.0f, 0.0f, 2.0f));
 
-	Object* suziSmoothO = new Object(Model::create(suziSmooth, 2904, 6).positionAttrib(0).normalAttrib(3).build(), phongSp);
+	Object* suziSmoothO = new Object(ModelFactory::premade(ModelType::suziSmoothN), phongSp);
 	suziSmoothO->setRotation(-0.02f, glm::vec3(.0f, 1.0f, .0f));
 	MatrixHandler::translate(suziSmoothO->getMatRef(), glm::vec3(5.0f, 0.0f, 8.0f));
 
@@ -126,16 +121,17 @@ void Engine::initScenes() {
 	testScene->addObject(suziSmoothO);
 	testScene->addCamera(camera);
 	scenes.push_back(testScene);
-	/*
+	
 	Scene* scenaNemca = new Scene(sceneSeq); sceneSeq += 1;
-	Object* sphereO1 = new Object(new Model(sphere, 2880 * (3 + 3), 6), phongSp);
-	MatrixHandler::translate(sphereO1->getMatRef(), glm::vec3(-2.0f, 0.0f, 0.0f));
-	Object* sphereO2 = new Object(new Model(sphere, 2880 * (3 + 3), 6), phongSp);
-	MatrixHandler::translate(sphereO2->getMatRef(), glm::vec3(2.0f, 0.0f, 0.0f));
-	Object* sphereO3 = new Object(new Model(sphere, 2880 * (3 + 3), 6), phongSp);
-	MatrixHandler::translate(sphereO3->getMatRef(), glm::vec3(0.0f, 2.0f, 0.0f));
-	Object* sphereO4 = new Object(new Model(sphere, 2880 * (3 + 3), 6), phongSp);
-	MatrixHandler::translate(sphereO4->getMatRef(), glm::vec3(0.0f, -2.0f, 0.0f));
+	Model* sphereM = ModelFactory::premade(ModelType::sphereN);
+	Object* sphereO1 = new Object(sphereM, phongSp);
+	MatrixHandler::translate(sphereO1->getMatRef(), glm::vec3(-2.5f, 0.0f, 0.0f));
+	Object* sphereO2 = new Object(sphereM, phongSp);
+	MatrixHandler::translate(sphereO2->getMatRef(), glm::vec3(2.5f, 0.0f, 0.0f));
+	Object* sphereO3 = new Object(sphereM, phongSp);
+	MatrixHandler::translate(sphereO3->getMatRef(), glm::vec3(0.0f, 2.5f, 0.0f));
+	Object* sphereO4 = new Object(sphereM, phongSp);
+	MatrixHandler::translate(sphereO4->getMatRef(), glm::vec3(0.0f, -2.5f, 0.0f));
 
 	scenaNemca->addObject(sphereO1);
 	scenaNemca->addObject(sphereO2);
@@ -152,20 +148,22 @@ void Engine::initScenes() {
 	int probability2 = rand() % 100 + 1;
 	int probability3 = rand() % 100 + 1;
 
-	Object* forestGround = new Object(new Model(plain, 6 * (3 + 3), 6), constSp);
+	Object* forestGround = new Object(ModelFactory::premade(ModelType::plainN), constSp);
 	MatrixHandler::scale(forestGround->getMatRef(), glm::vec3(50.0f, 1.0f, 50.0f));
-	//MatrixHandler::translate(forestGround->getMatRef(), glm::vec3(0.0f, -1.0f, 5.0f));
 	forest->addObject(forestGround);
+	Model* giftM = ModelFactory::premade(ModelType::giftN);
+	Model* bushM = ModelFactory::premade(ModelType::bushN);
+	Model* treeM = ModelFactory::premade(ModelType::treeN);
 	
 	for (int i = 0; i < 20; i++) {
 		for (int j = 0; j < 20; j++) {
 			Object* leafy;
 			if (probability3 > 90)
-				leafy = new Object(new Model(gift, 66624 * 6, 6), constSp);
+				leafy = new Object(giftM, constSp);
 			else if (probability3 > 70)
-				leafy = new Object(new Model(bush, 8730 * 6, 6), phongSp);
+				leafy = new Object(bushM, phongSp);
 			else
-				leafy = new Object(new Model(tree, 92814 * 6, 6), phongSp);
+				leafy = new Object(treeM, phongSp);
 
 			forest->addObject(leafy);
 			MatrixHandler::translate(leafy->getMatRef(), glm::vec3(float(i / 5) + float(probability1 / 3), 0.0f, float(j / 5) + float(probability2 / 3)));
@@ -176,7 +174,7 @@ void Engine::initScenes() {
 	forest->setLightPos(glm::vec3(.0f, 30.0f, .0f));
 	forest->addCamera(camera);
 	scenes.push_back(forest);
-	}*/
+	}
 }
 void Engine::startRendering() {
 
@@ -267,26 +265,26 @@ Engine* Engine::getInstance()
 void Engine::processHeldKeys() {
 	if (glfwGetKey(window->getGLFWWindow(), GLFW_KEY_W) == GLFW_PRESS)
 	{
-		currentScene->getCurrentCam()->move(CAM_FORWARD);
+		currentScene->getCurrentCam()->move(Camera_Movement::CAM_FORWARD);
 	}
 	if (glfwGetKey(window->getGLFWWindow(), GLFW_KEY_A) == GLFW_PRESS)
 	{
-		currentScene->getCurrentCam()->move(CAM_LEFT);
+		currentScene->getCurrentCam()->move(Camera_Movement::CAM_LEFT);
 	}
 	if (glfwGetKey(window->getGLFWWindow(), GLFW_KEY_S) == GLFW_PRESS)
 	{
-		currentScene->getCurrentCam()->move(CAM_BACKWARD);
+		currentScene->getCurrentCam()->move(Camera_Movement::CAM_BACKWARD);
 	}
 	if (glfwGetKey(window->getGLFWWindow(), GLFW_KEY_D) == GLFW_PRESS)
 	{
-		currentScene->getCurrentCam()->move(CAM_RIGHT);
+		currentScene->getCurrentCam()->move(Camera_Movement::CAM_RIGHT);
 	}
 	if (glfwGetKey(window->getGLFWWindow(), GLFW_KEY_SPACE) == GLFW_PRESS)
 	{
-		currentScene->getCurrentCam()->move(CAM_UP);
+		currentScene->getCurrentCam()->move(Camera_Movement::CAM_UP);
 	}
 	if (glfwGetKey(window->getGLFWWindow(), GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
 	{
-		currentScene->getCurrentCam()->move(CAM_DOWN);
+		currentScene->getCurrentCam()->move(Camera_Movement::CAM_DOWN);
 	}
 }

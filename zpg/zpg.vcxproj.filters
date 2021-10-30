@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\models">
+      <UniqueIdentifier>{deaa89b1-50aa-4bfe-9a34-394c99b7376e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -54,6 +57,9 @@
     <ClCompile Include="ModelBuilder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ModelFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -92,18 +98,6 @@
     <ClInclude Include="Scene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Models\plain.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Models\sphere.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Models\suzi_flat.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Models\suzi_smooth.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Shaders\ShaderLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -113,16 +107,31 @@
     <ClInclude Include="Utilities\ISubject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Models\bushes.h">
+    <ClInclude Include="ModelBuilder.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\bushes.h">
+      <Filter>Header Files\models</Filter>
     </ClInclude>
     <ClInclude Include="Models\gift.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\models</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\suzi_smooth.h">
+      <Filter>Header Files\models</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\suzi_flat.h">
+      <Filter>Header Files\models</Filter>
     </ClInclude>
     <ClInclude Include="Models\tree.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\models</Filter>
     </ClInclude>
-    <ClInclude Include="ModelBuilder.h">
+    <ClInclude Include="Models\sphere.h">
+      <Filter>Header Files\models</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\plain.h">
+      <Filter>Header Files\models</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

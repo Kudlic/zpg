@@ -12,7 +12,7 @@
 
 const glm::vec3 worldUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
-enum Camera_Movement {
+enum class Camera_Movement {
 	CAM_FORWARD,
 	CAM_BACKWARD,
 	CAM_LEFT,
