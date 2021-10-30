@@ -2,6 +2,7 @@
 
 in vec4 ex_worldPosition;
 in vec3 ex_worldNormal;
+in vec4 ex_colour;
 
 uniform vec3 lightPos;
 uniform vec3 cameraPos;
@@ -24,6 +25,6 @@ vec3 toCamVector = normalize(cameraPos - ex_worldPosition.xyz);
 float specularConstant = pow(max(dot(toCamVector, reflectFromLightVector),0), 30);
 vec3 specular = vec3(1.f, 1.f, 1.f) * specularConstant;
 //Output
-out_Color = vec4(baseColor, 1.f) * (vec4(ambientLight, 1.f)
+out_Color = ex_colour * (vec4(ambientLight, 1.f)
         +   vec4(diffuse, 1.f) + vec4(specular, 1.f)); 
 }

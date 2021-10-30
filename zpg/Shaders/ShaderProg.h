@@ -29,4 +29,5 @@ public:
 	void useShader();
 	GLuint getShaderProgram();
 	virtual void update(glm::mat4 viewMat, glm::mat4 projMat, glm::vec3 camPos) override;
+	GLint getUniformLocation(const char* uniName);
 };

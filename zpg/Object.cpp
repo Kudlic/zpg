@@ -6,7 +6,7 @@ Object::Object(Model* model, ShaderProg* shaderProgram) {
 	this->rotationAngle = 0.0f;
 	this->rotationAxis = glm::vec3(0.0f, 1.0f, 0.0f);
 	this->transMat = glm::mat4(1.0f);
-	this->idModelTransform = glGetUniformLocation(this->shaderProgram->getShaderProgram(), "modelMatrix");
+	this->idModelTransform = this->shaderProgram->getUniformLocation("modelMatrix");
 }
 void Object::draw() {
 	shaderProgram->useShader();

@@ -8,6 +8,7 @@
 #include<glm/gtx/vector_angle.hpp>
 #include "Utilities/ISubject.h"
 #include <vector>
+#include"Shaders/ShaderProg.h"
 
 const glm::vec3 worldUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
@@ -22,14 +23,15 @@ enum Camera_Movement {
 
 class Camera : public ISubject
 {
+private:
+	glm::vec3 position;
+	glm::mat4 viewMat;
 public:
 	std::vector<IObserver*> observers;
 	// Stores the main vectors of the camera
-	glm::vec3 position;
 	glm::vec3 orientation = glm::vec3(0.0f, 0.0f, -1.0f);
 	glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
 	glm::vec3 right = glm::vec3(0.0f, 1.0f, 0.0f);
-	glm::mat4 viewMat;
 	glm::mat4 projMat;
 	GLfloat movementSpeed;
 	GLfloat sensitivity = 0.05f;
@@ -39,7 +41,7 @@ public:
 	// Camera constructor to set up initial values
 	Camera(int width, int height, glm::vec3 position);
 
-	void updateShader(GLuint shaderProg);
+	void updateShader(ShaderProg* shaderProg);
 	void calcOrientation();
 	void calcView();
 	void move(Camera_Movement direction);

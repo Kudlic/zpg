@@ -31,3 +31,9 @@ void ShaderProg::update(glm::mat4 viewMat, glm::mat4 projMat, glm::vec3 camPos) 
 	this->cameraPos = camPos;
 
 }
+GLint ShaderProg::getUniformLocation(const char* uniName) {
+	return glGetUniformLocation(shaderProgram, uniName);
+}
+
+
+

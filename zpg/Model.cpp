@@ -1,6 +1,6 @@
 #include "Model.h"
 
-Model::Model(const GLfloat* points, int size, int lineLen, int vecLen, int uniformCount, GLenum mode) {
+Model::Model(GLboolean bit, const GLfloat* points, int size, int lineLen, int vecLen, int uniformCount, GLenum mode) {
 
 	pointNo = size / lineLen;
 	this->mode = mode;
@@ -22,7 +22,17 @@ Model::Model(const GLfloat* points, int size, int lineLen, int vecLen, int unifo
 	vao->unbind();
 	vbo->unbind();
 }
-
+Model::Model(const GLfloat* points, GLint pointNo, GLint lineLen) {
+	this->pointNo = pointNo;
+	this->lineLen = lineLen;
+	this->mode = GL_TRIANGLES;
+	vbo = new VBO(points, pointNo * lineLen);
+	vao = new VAO();
+	vao->bind();
+}
+ModelBuilder Model::create(const GLfloat* points, GLint pointNo, GLint lineLen) {
+	return ModelBuilder(points, pointNo, lineLen);
+}
 VAO* Model::getVAO() {
 	return vao;
 }

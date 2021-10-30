@@ -1,24 +1,20 @@
 #include"Camera.h"
 
-
-
 Camera::Camera(int width, int height, glm::vec3 position)
 {
-	position = position;
+	this->position = position;
 	yaw = -90.0f;
 	pitch = 0.0f;
 	movementSpeed = 0.1f;
-	viewMat = glm::lookAt(position, position + orientation, worldUp);
-	projMat = glm::perspective(glm::radians(45.0f), (float)width / height, 0.1f, 100.0f);
 	calcOrientation();
+	viewMat = glm::lookAt(this->position, this->position + orientation, worldUp);
+	projMat = glm::perspective(glm::radians(45.0f), (float)width / height, 0.1f, 100.0f);
 }
 
-void Camera::updateShader(GLuint shaderProg) {
-	GLint idViewMat = glGetUniformLocation(shaderProg, "viewMatrix");
-	GLint idProjMat = glGetUniformLocation(shaderProg, "projectionMatrix");
+void Camera::updateShader(ShaderProg* shaderProg) {
 
-	glUniformMatrix4fv(idViewMat, 1, GL_FALSE, &viewMat[0][0]);
-	glUniformMatrix4fv(idProjMat, 1, GL_FALSE, &projMat[0][0]);
+	glUniformMatrix4fv(shaderProg->getUniformLocation("viewMatrix"), 1, GL_FALSE, &viewMat[0][0]);
+	glUniformMatrix4fv(shaderProg->getUniformLocation("projectionMatrix"), 1, GL_FALSE, &projMat[0][0]);
 
 }
 void Camera::calcOrientation() {

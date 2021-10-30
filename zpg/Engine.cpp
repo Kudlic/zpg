@@ -90,26 +90,27 @@ void Engine::initScenes() {
 	ShaderProg* lambSp = new ShaderProg("./Shaders/vertex_shader_lambert.glsl", "./Shaders/fragment_shader_lambert.glsl");
 	ShaderProg* phongSp = new ShaderProg("./Shaders/vertex_shader_phong.glsl", "./Shaders/fragment_shader_phong.glsl");
 
-	Object* cube = new Object(new Model(points1, 10 * (3 + 3), 6, 3, 2, GL_TRIANGLE_STRIP), constSp);
-	Object* roof = new Object(new Model(points2, 8 * (3 + 3), 6, 3, 2, GL_TRIANGLE_STRIP), colSp);
-	Object* sphereO = new Object(new Model(sphere, 2880 * (3 + 3), 6), colSp);
+	Object* cube = new Object(Model::create(points1, 10, 6).positionAttrib(0).mode(GL_TRIANGLE_STRIP).build(), constSp);
+
+	Object* roof = new Object(Model::create(points2, 8, 6).positionAttrib(0).colorAttrib(3).mode(GL_TRIANGLE_STRIP).build(), colSp);
+	Object* sphereO = new Object(Model::create(sphere, 2880, 6).positionAttrib(0).colorAttrib(3).build(), colSp);
 	sphereO->setRotation(0.8f, glm::vec3(.0f, .0f, 1.0f));
 	MatrixHandler::translate(sphereO->getMatRef(), glm::vec3(0.0f, 0.0f, 10.0f));
 
-	Object* plainO = new Object(new Model(plain, 6 * (3 + 3), 6), colSp);
+	Object* plainO = new Object(Model::create(plain, 6, 6).positionAttrib(0).normalAttrib(3).build(), phongSp);
 	MatrixHandler::scale(plainO->getMatRef(), glm::vec3(.3f, .3f, .3f));
 	MatrixHandler::translate(plainO->getMatRef(), glm::vec3(0.0f, -1.0f, 5.0f));
-
-	Object* suziFlatO = new Object(new Model(suziFlat, 2904 * (3 + 3), 6, 3, 2), lambSp);
+	
+	Object* suziFlatO = new Object(Model::create(suziFlat, 2904, 6).positionAttrib(0).normalAttrib(3).build(), lambSp);
 	suziFlatO->setRotation(0.02f, glm::vec3(.0f, 1.0f, .0f));
 	MatrixHandler::translate(suziFlatO->getMatRef(), glm::vec3(5.0f, 0.0f, 2.0f));
 
-	Object* suziSmoothO = new Object(new Model(suziSmooth, 2904 * (3 + 3), 6, 3, 2), phongSp);
+	Object* suziSmoothO = new Object(Model::create(suziSmooth, 2904, 6).positionAttrib(0).normalAttrib(3).build(), phongSp);
 	suziSmoothO->setRotation(-0.02f, glm::vec3(.0f, 1.0f, .0f));
 	MatrixHandler::translate(suziSmoothO->getMatRef(), glm::vec3(5.0f, 0.0f, 8.0f));
 
 
-	Camera* camera = new Camera(window->getWidth(), window->getHeight(), glm::vec3(0.0f, 0.0f, 5.0f));
+	Camera* camera = new Camera(window->getWidth(), window->getHeight(), glm::vec3(0.0f, 0.0f, 20.0f));
 	camera->attach(constSp);
 	camera->attach(colSp);
 	camera->attach(lambSp);
@@ -125,7 +126,7 @@ void Engine::initScenes() {
 	testScene->addObject(suziSmoothO);
 	testScene->addCamera(camera);
 	scenes.push_back(testScene);
-
+	/*
 	Scene* scenaNemca = new Scene(sceneSeq); sceneSeq += 1;
 	Object* sphereO1 = new Object(new Model(sphere, 2880 * (3 + 3), 6), phongSp);
 	MatrixHandler::translate(sphereO1->getMatRef(), glm::vec3(-2.0f, 0.0f, 0.0f));
@@ -155,7 +156,7 @@ void Engine::initScenes() {
 	MatrixHandler::scale(forestGround->getMatRef(), glm::vec3(50.0f, 1.0f, 50.0f));
 	//MatrixHandler::translate(forestGround->getMatRef(), glm::vec3(0.0f, -1.0f, 5.0f));
 	forest->addObject(forestGround);
-
+	
 	for (int i = 0; i < 20; i++) {
 		for (int j = 0; j < 20; j++) {
 			Object* leafy;
@@ -172,14 +173,14 @@ void Engine::initScenes() {
 			probability2 = rand() % 100 + 1;
 			probability3 = rand() % 100 + 1;
 		}
-	}
 	forest->setLightPos(glm::vec3(.0f, 30.0f, .0f));
 	forest->addCamera(camera);
 	scenes.push_back(forest);
+	}*/
 }
 void Engine::startRendering() {
 
-	currentScene = scenes.back();
+	currentScene = scenes.front();
 	glEnable(GL_DEPTH_TEST);
 
 	currentScene->getCurrentCam()->notify();
@@ -214,21 +215,21 @@ void Engine::nextScene() {
 	this->currentScene = scenes.at(nextSeq);
 }
 void Engine::onClick(int button, int action, double x, double y) {
-	if (action == GLFW_PRESS) {
+	/*if (action == GLFW_PRESS) {
 		printf("press %d %d %f %f\n", button, action, x, y);
 	}
 	if (action == GLFW_RELEASE) {
 		printf("release %d %d %f %f\n", button, action, x, y);
-	}
+	}*/
 	return;
 }
 void Engine::onKey(int key, int scancode, int action, int mods) {
-	if (action == GLFW_PRESS) {
+	/*if (action == GLFW_PRESS) {
 		printf("press %d %d %d %d\n", key, scancode, action, mods);
 	}
 	if (action == GLFW_RELEASE) {
 		printf("release %d %d %d %d\n", key, scancode, action, mods);
-	}
+	}*/
 	if (action == GLFW_PRESS && key == GLFW_KEY_ESCAPE) {
 		printf("Zaviram\n");
 		glfwSetWindowShouldClose(window->getGLFWWindow(), GLFW_TRUE);
