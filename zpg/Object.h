@@ -15,11 +15,14 @@ private:
 	GLint idModelTransform;
 	GLfloat rotationAngle;
 	glm::vec3 rotationAxis;
+	glm::vec4 color;
 public:
 	Object(Model* model, ShaderProg* shaderProgram);
 	void draw();
 	ShaderProg* getShader();
 	glm::mat4* getMatRef();
 	void setRotation(GLfloat rotationAngle, glm::vec3 rotationAxis);
+	void setColor(glm::vec4 color);
+	void setColor(glm::vec3 color);
 };
 

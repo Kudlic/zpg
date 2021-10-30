@@ -133,6 +133,12 @@ void Engine::initScenes() {
 	Object* sphereO4 = new Object(sphereM, phongSp);
 	MatrixHandler::translate(sphereO4->getMatRef(), glm::vec3(0.0f, -2.5f, 0.0f));
 
+	sphereO1->setColor(glm::vec3(.1f, .1f, .9f));
+	sphereO2->setColor(glm::vec3(.1f, .1f, .9f));
+	sphereO3->setColor(glm::vec3(.1f, .1f, .9f));
+	sphereO4->setColor(glm::vec3(.1f, .1f, .9f));
+
+
 	scenaNemca->addObject(sphereO1);
 	scenaNemca->addObject(sphereO2);
 	scenaNemca->addObject(sphereO3);
@@ -149,6 +155,7 @@ void Engine::initScenes() {
 	int probability3 = rand() % 100 + 1;
 
 	Object* forestGround = new Object(ModelFactory::premade(ModelType::plainN), constSp);
+	forestGround->setColor(glm::vec3(float(85) / float(255), float(81) / float(255), float(66) / float(255)));
 	MatrixHandler::scale(forestGround->getMatRef(), glm::vec3(50.0f, 1.0f, 50.0f));
 	forest->addObject(forestGround);
 	Model* giftM = ModelFactory::premade(ModelType::giftN);
@@ -158,13 +165,17 @@ void Engine::initScenes() {
 	for (int i = 0; i < 20; i++) {
 		for (int j = 0; j < 20; j++) {
 			Object* leafy;
-			if (probability3 > 90)
+			if (probability3 > 90) {
 				leafy = new Object(giftM, constSp);
-			else if (probability3 > 70)
+			}
+			else if (probability3 > 50) {
 				leafy = new Object(bushM, phongSp);
-			else
+				leafy->setColor(glm::vec3(float(18) / float(255), float(230) / float(255), float(3) / float(255)));
+			}
+			else{
 				leafy = new Object(treeM, phongSp);
-
+				leafy->setColor(glm::vec3(float(22) / float(255), float(96) / float(255), float(55) / float(255)));
+			}
 			forest->addObject(leafy);
 			MatrixHandler::translate(leafy->getMatRef(), glm::vec3(float(i / 5) + float(probability1 / 3), 0.0f, float(j / 5) + float(probability2 / 3)));
 			probability1 = rand() % 100 + 1;
