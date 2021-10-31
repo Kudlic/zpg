@@ -15,6 +15,8 @@ Engine* Engine::instance = 0;
 GLint sceneSeq = 0;
 float deltaTime = 0.0f;	// time between current frame and last frame
 float lastFrame = 0.0f;
+GLboolean camMove = false;	//flag for held right click
+GLfloat screenX, screenY; //save location for right click
 
 void Engine::init() {
 
@@ -38,8 +40,8 @@ void Engine::init() {
 	glfwGetVersion(&major, &minor, &revision);
 	printf("Using GLFW %i.%i.%i\n", major, minor, revision);
 
-	glfwSetInputMode(window->getGLFWWindow(), GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
-	glfwSetCursorPos(window->getGLFWWindow(), (window->getWidth() / 2), (window->getHeight() / 2));
+	//glfwSetInputMode(window->getGLFWWindow(), GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+	//glfwSetCursorPos(window->getGLFWWindow(), (window->getWidth() / 2), (window->getHeight() / 2));
 	this->initScenes();
 }
 void Engine::initScenes() {
@@ -224,21 +226,26 @@ void Engine::nextScene() {
 	this->currentScene = scenes.at(nextSeq);
 }
 void Engine::onClick(int button, int action, double x, double y) {
-	/*if (action == GLFW_PRESS) {
+	if (action == GLFW_PRESS) {
 		printf("press %d %d %f %f\n", button, action, x, y);
 	}
 	if (action == GLFW_RELEASE) {
 		printf("release %d %d %f %f\n", button, action, x, y);
-	}*/
+	}
+	if (action == GLFW_PRESS && button == GLFW_MOUSE_BUTTON_RIGHT) {
+		camMove = true;
+		screenX = x;
+		screenY = y;
+		glfwSetInputMode(window->getGLFWWindow(), GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+	}
+	if (action == GLFW_RELEASE && button == GLFW_MOUSE_BUTTON_RIGHT) {
+		camMove = false;
+		glfwSetInputMode(window->getGLFWWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+	}
 	return;
 }
 void Engine::onKey(int key, int scancode, int action, int mods) {
-	/*if (action == GLFW_PRESS) {
-		printf("press %d %d %d %d\n", key, scancode, action, mods);
-	}
-	if (action == GLFW_RELEASE) {
-		printf("release %d %d %d %d\n", key, scancode, action, mods);
-	}*/
+
 	if (action == GLFW_PRESS && key == GLFW_KEY_ESCAPE) {
 		printf("Zaviram\n");
 		glfwSetWindowShouldClose(window->getGLFWWindow(), GLFW_TRUE);
@@ -249,15 +256,16 @@ void Engine::onKey(int key, int scancode, int action, int mods) {
 	return;
 }
 void Engine::onMove(double x, double y) {
-	printf("move %f %f \n", x, y);
-	double xmove, ymove;
-	xmove = x - (window->getWidth() / 2);
-	ymove = y - (window->getHeight() / 2);
+	//printf("move %f %f \n", x, y);
+	if(camMove){
+		double xmove, ymove;
+		xmove = x - screenX;
+		ymove = y - screenY;
 
-	glfwSetCursorPos(window->getGLFWWindow(), (window->getWidth() / 2), (window->getHeight() / 2));
+		glfwSetCursorPos(window->getGLFWWindow(), screenX, screenY);
 
-	this->currentScene->getCurrentCam()->rotate(xmove, ymove);
-
+		this->currentScene->getCurrentCam()->rotate(xmove, ymove);
+	}
 }
 
 Engine::Engine() {
