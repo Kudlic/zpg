@@ -44,6 +44,7 @@ public:
 	void updateShader(ShaderProg* shaderProg);
 	void calcOrientation();
 	void calcView();
+	void calcProjection(GLint width, GLint height);
 	void move(Camera_Movement direction);
 	void rotate(double xoffset, double yoffset, GLboolean constrainPitch = true);
 	virtual void attach(IObserver* observer) override;

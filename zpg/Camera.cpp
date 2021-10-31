@@ -8,7 +8,7 @@ Camera::Camera(int width, int height, glm::vec3 position)
 	movementSpeed = 0.1f;
 	calcOrientation();
 	viewMat = glm::lookAt(this->position, this->position + orientation, worldUp);
-	projMat = glm::perspective(glm::radians(45.0f), (float)width / height, 0.1f, 100.0f);
+	projMat = glm::perspective(glm::radians(60.0f), (float)width / height, 0.1f, 200.0f);
 }
 
 void Camera::updateShader(ShaderProg* shaderProg) {
@@ -70,6 +70,10 @@ void Camera::rotate(double xoffset, double yoffset, GLboolean constrainPitch) {
 	}
 	calcOrientation();
 	calcView();
+}
+void Camera::calcProjection(GLint width, GLint height) {
+	projMat = glm::perspective(glm::radians(60.0f), (float)width / height, 0.1f, 200.0f);
+	this->notify();
 }
 
 //Observer functions

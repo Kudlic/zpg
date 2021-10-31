@@ -11,10 +11,10 @@ private:
 	Window* window;
 	static Engine* instance;
 	std::vector <Scene*> scenes;
-	Scene* currentScene;
 	Engine();
 
 public:
+	Scene* currentScene;
 	void init();
 
 	void startRendering();
