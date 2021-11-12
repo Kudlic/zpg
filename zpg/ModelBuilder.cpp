@@ -18,6 +18,12 @@ ModelBuilder ModelBuilder::normalAttrib(GLint at) {
 	this->model->vao->unbind();
 	return *this;
 }
+ModelBuilder ModelBuilder::texAttrib(GLint at) {
+	this->model->vao->bind();
+	this->model->vao->linkAttrib(*this->model->vbo, 3, 2, GL_FLOAT, this->model->lineLen * sizeof(GL_FLOAT), (GLvoid*)(at * sizeof(GL_FLOAT)));
+	this->model->vao->unbind();
+	return *this;
+}
 ModelBuilder ModelBuilder::colorAttrib(GLint at, GLboolean alpha) {
 	this->model->vao->bind();
 	GLint componentNo;

@@ -16,6 +16,12 @@
     <Filter Include="Header Files\models">
       <UniqueIdentifier>{deaa89b1-50aa-4bfe-9a34-394c99b7376e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\textures">
+      <UniqueIdentifier>{e3bdb874-54ce-4946-8f3b-4f3e2ef05ce1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\shaders">
+      <UniqueIdentifier>{6a9c40dc-fc22-48a7-b699-9db22c5dd40a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -58,6 +64,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ModelFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stb.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -134,5 +146,40 @@
     <ClInclude Include="ModelFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Header Files\textures</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\Fragment_shader.glsl">
+      <Filter>Header Files\shaders</Filter>
+    </None>
+    <None Include="Shaders\Fragment_shader_constant.glsl">
+      <Filter>Header Files\shaders</Filter>
+    </None>
+    <None Include="Shaders\Fragment_shader_lambert.glsl">
+      <Filter>Header Files\shaders</Filter>
+    </None>
+    <None Include="Shaders\Fragment_shader_phong.glsl">
+      <Filter>Header Files\shaders</Filter>
+    </None>
+    <None Include="Shaders\Fragment_shader_phong_texture.glsl">
+      <Filter>Header Files\shaders</Filter>
+    </None>
+    <None Include="Shaders\Vertex_shader.glsl">
+      <Filter>Header Files\shaders</Filter>
+    </None>
+    <None Include="Shaders\Vertex_shader_constant.glsl">
+      <Filter>Header Files\shaders</Filter>
+    </None>
+    <None Include="Shaders\Vertex_shader_lambert.glsl">
+      <Filter>Header Files\shaders</Filter>
+    </None>
+    <None Include="Shaders\Vertex_shader_phong.glsl">
+      <Filter>Header Files\shaders</Filter>
+    </None>
+    <None Include="Shaders\Vertex_shader_phong_texture.glsl">
+      <Filter>Header Files\shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -1,13 +1,15 @@
 #include "Scene.h"
 #include "Utilities/MatrixHandler.h"
+
 Scene::Scene(GLint sceneSeq) {
 	currentCam = nullptr;
 	lightPos = glm::vec3(0.0f, 0.0f, 5.0f);
 	this->sceneSeq = sceneSeq;
+	this->background = glm::vec4(0.2f, 0.2f, 0.2f, 1.f);
 }
 void Scene::draw(GLfloat timeDelta) {
 	for (Object* element : objects) {
-		glUniform3fv(glGetUniformLocation(element->getShader()->getShaderProgram(), "lightPos"), 1, glm::value_ptr(this->lightPos));
+		glUniform3fv(element->getShader()->getUniformLocation("lightPos"), 1, glm::value_ptr(this->lightPos));
 		element->draw();
 	}
 }

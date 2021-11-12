@@ -4,7 +4,7 @@ ShaderProg::ShaderProg(GLuint shaderProgID) {
 	this->shaderProgram = shaderProgID;
 }
 ShaderProg::ShaderProg(const char* vertex_shader, const char* fragment_shader) {
-	ShaderLoader sl = ShaderLoader(vertex_shader, fragment_shader, &this->shaderProgram);
+	this->shaderProgram = loadShader(vertex_shader, fragment_shader);
 }
 
 void ShaderProg::useShader() {

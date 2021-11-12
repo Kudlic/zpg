@@ -33,7 +33,7 @@ void Camera::calcView() {
 }
 void Camera::move(Camera_Movement direction) {
 	GLfloat velocity = movementSpeed;
-	printf("direction %d\n", direction);
+	//printf("direction %d\n", direction);
 	switch (direction) {
 	case Camera_Movement::CAM_FORWARD:
 		position += orientation * velocity;

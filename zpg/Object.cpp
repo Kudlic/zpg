@@ -14,6 +14,9 @@ void Object::draw() {
 	glUniformMatrix4fv(this->idModelTransform, 1, GL_FALSE, &this->transMat[0][0]);
 	glUniform4fv(shaderProgram->getUniformLocation("in_colour"), 1, glm::value_ptr(this->color));
 
+	if (this->model->tex != nullptr) {
+		this->model->tex->useTexture(shaderProgram);
+	}
 	this->model->getVAO()->bind();
 	glDrawArrays(model->getMode(), 0, model->getPointNo());
 	MatrixHandler::rotate(this->getMatRef(), this->rotationAngle, this->rotationAxis);

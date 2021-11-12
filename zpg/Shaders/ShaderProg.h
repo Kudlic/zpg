@@ -16,7 +16,7 @@
 
 
 
-class ShaderProg : public IObserver 
+class ShaderProg : public IObserver, public ShaderLoader
 {
 private:
 	GLuint shaderProgram;

@@ -2,6 +2,7 @@
 
 Model::Model(GLboolean bit, const GLfloat* points, int size, int lineLen, int vecLen, int uniformCount, GLenum mode) {
 
+	this->tex = nullptr;
 	pointNo = size / lineLen;
 	this->mode = mode;
 	vbo = new VBO(points, size);
@@ -23,6 +24,7 @@ Model::Model(GLboolean bit, const GLfloat* points, int size, int lineLen, int ve
 	vbo->unbind();
 }
 Model::Model(const GLfloat* points, GLint pointNo, GLint lineLen) {
+	this->tex = nullptr;
 	this->pointNo = pointNo;
 	this->lineLen = lineLen;
 	this->mode = GL_TRIANGLES;
@@ -45,4 +47,7 @@ int Model::getPointNo() {
 }
 GLenum Model::getMode() {
 	return mode;
+}
+void Model::bindTexture(Texture* tex) {
+	this->tex = tex;
 }

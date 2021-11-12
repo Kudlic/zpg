@@ -88,13 +88,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\Libraries\glew-2.1.0\include;..\..\Libraries\glm;..\..\Libraries\glfw-3.3.4.bin.WIN32\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\Libraries\glew-2.1.0\include;..\..\Libraries\soil\include;..\..\Libraries\glm;..\..\Libraries\glfw-3.3.4.bin.WIN32\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\..\Libraries\glfw-3.3.4.bin.WIN32\lib-vc2019;..\..\Libraries\glew-2.1.0\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glu32.lib;glfw3.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\Libraries\glfw-3.3.4.bin.WIN32\lib-vc2019;..\..\Libraries\soil\lib;..\..\Libraries\glew-2.1.0\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;glfw3.lib;glew32.lib;SOIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -152,6 +152,8 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Shaders\ShaderLoader.cpp" />
     <ClCompile Include="Shaders\ShaderProg.cpp" />
+    <ClCompile Include="stb.cpp" />
+    <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Utilities\MatrixHandler.cpp" />
     <ClCompile Include="VAO.cpp" />
     <ClCompile Include="VBO.cpp" />
@@ -176,12 +178,25 @@
     <ClInclude Include="Shaders\ShaderLoader.h" />
     <ClInclude Include="Shaders\ShaderProg.h" />
     <ClInclude Include="Shaders\Vertex_shader.h" />
+    <ClInclude Include="Texture.h" />
     <ClInclude Include="Utilities\IObserver.h" />
     <ClInclude Include="Utilities\ISubject.h" />
     <ClInclude Include="Utilities\MatrixHandler.h" />
     <ClInclude Include="VAO.h" />
     <ClInclude Include="VBO.h" />
     <ClInclude Include="Window.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\Fragment_shader.glsl" />
+    <None Include="Shaders\Fragment_shader_constant.glsl" />
+    <None Include="Shaders\Fragment_shader_lambert.glsl" />
+    <None Include="Shaders\Fragment_shader_phong.glsl" />
+    <None Include="Shaders\Fragment_shader_phong_texture.glsl" />
+    <None Include="Shaders\Vertex_shader.glsl" />
+    <None Include="Shaders\Vertex_shader_constant.glsl" />
+    <None Include="Shaders\Vertex_shader_lambert.glsl" />
+    <None Include="Shaders\Vertex_shader_phong.glsl" />
+    <None Include="Shaders\Vertex_shader_phong_texture.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

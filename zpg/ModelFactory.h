@@ -16,7 +16,8 @@ enum class ModelType {
 	treeN,
 	bushN,
 	giftN,
-	plainN
+	plainN,
+	plainNT
 };
 class ModelFactory
 {

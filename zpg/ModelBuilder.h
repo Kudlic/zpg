@@ -12,6 +12,7 @@ public:
 	ModelBuilder mode(GLenum mode);
 	ModelBuilder positionAttrib(GLint at);
 	ModelBuilder normalAttrib(GLint at);
+	ModelBuilder texAttrib(GLint at);
 	ModelBuilder colorAttrib(GLint at, GLboolean alpha = 0);
 	Model* build();
 };

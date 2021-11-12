@@ -85,6 +85,7 @@ void Engine::initScenes() {
 	ShaderProg* constSp = new ShaderProg("./Shaders/vertex_shader_constant.glsl", "./Shaders/fragment_shader_constant.glsl");
 	ShaderProg* lambSp = new ShaderProg("./Shaders/vertex_shader_lambert.glsl", "./Shaders/fragment_shader_lambert.glsl");
 	ShaderProg* phongSp = new ShaderProg("./Shaders/vertex_shader_phong.glsl", "./Shaders/fragment_shader_phong.glsl");
+	ShaderProg* textureSp = new ShaderProg("./Shaders/vertex_shader_phong_texture.glsl", "./Shaders/fragment_shader_phong_texture.glsl");
 
 	Object* cube = new Object(Model::create(points1, 10, 6).positionAttrib(0).mode(GL_TRIANGLE_STRIP).build(), constSp);
 
@@ -96,7 +97,12 @@ void Engine::initScenes() {
 
 	Object* plainO = new Object(ModelFactory::premade(ModelType::plainN), phongSp);
 	MatrixHandler::scale(plainO->getMatRef(), glm::vec3(.3f, .3f, .3f));
-	MatrixHandler::translate(plainO->getMatRef(), glm::vec3(0.0f, -1.0f, 5.0f));
+	MatrixHandler::translate(plainO->getMatRef(), glm::vec3(0.0f, -5.0f, 0.0f));
+	plainO->setRotation(0.01f, glm::vec3(1.0f, .0f, .0f));
+
+	Object* plainOT = new Object(ModelFactory::premade(ModelType::plainNT), textureSp);
+	MatrixHandler::translate(plainOT->getMatRef(), glm::vec3(0.0f, -10.0f, 0.0f));
+	MatrixHandler::scale(plainOT->getMatRef(), glm::vec3(10.3f, 10.3f, 10.3f));
 	
 	Object* suziFlatO = new Object(ModelFactory::premade(ModelType::suziFlatN), lambSp);
 	suziFlatO->setRotation(0.02f, glm::vec3(.0f, 1.0f, .0f));
@@ -107,11 +113,12 @@ void Engine::initScenes() {
 	MatrixHandler::translate(suziSmoothO->getMatRef(), glm::vec3(5.0f, 0.0f, 8.0f));
 
 
-	Camera* camera = new Camera(window->getWidth(), window->getHeight(), glm::vec3(0.0f, 0.0f, 20.0f));
+	Camera* camera = new Camera(window->getWidth(), window->getHeight(), glm::vec3(0.0f, 0.0f, 5.0f));
 	camera->attach(constSp);
 	camera->attach(colSp);
 	camera->attach(lambSp);
 	camera->attach(phongSp);
+	camera->attach(textureSp);
 
 
 	Scene* testScene = new Scene(sceneSeq); sceneSeq += 1;	
@@ -121,8 +128,14 @@ void Engine::initScenes() {
 	testScene->addObject(plainO);
 	testScene->addObject(suziFlatO);
 	testScene->addObject(suziSmoothO);
+	testScene->addObject(plainOT);
 	testScene->addCamera(camera);
+	testScene->setLightPos(glm::vec3(.0f, .0f, .0f));
+
+	printf("size %d\n", scenes.size());
 	scenes.push_back(testScene);
+	printf("size %d\n", scenes.size());
+
 	
 	Scene* scenaNemca = new Scene(sceneSeq); sceneSeq += 1;
 	Model* sphereM = ModelFactory::premade(ModelType::sphereN);
@@ -135,7 +148,7 @@ void Engine::initScenes() {
 	Object* sphereO4 = new Object(sphereM, phongSp);
 	MatrixHandler::translate(sphereO4->getMatRef(), glm::vec3(0.0f, -2.5f, 0.0f));
 
-	sphereO1->setColor(glm::vec3(.1f, .1f, .9f));
+	sphereO1->setColor(glm::vec3(.4f, .4f, .9f));
 	sphereO2->setColor(glm::vec3(.1f, .1f, .9f));
 	sphereO3->setColor(glm::vec3(.1f, .1f, .9f));
 	sphereO4->setColor(glm::vec3(.1f, .1f, .9f));
@@ -148,6 +161,8 @@ void Engine::initScenes() {
 	scenaNemca->setLightPos(glm::vec3(.0f, .0f, .0f));
 	scenaNemca->addCamera(camera);
 	scenes.push_back(scenaNemca);
+	printf("size %d\n", scenes.size());
+
 
 
 	Scene* forest = new Scene(sceneSeq); sceneSeq += 1;
@@ -157,7 +172,7 @@ void Engine::initScenes() {
 	int probability3 = rand() % 100 + 1;
 
 	Object* forestGround = new Object(ModelFactory::premade(ModelType::plainN), constSp);
-	forestGround->setColor(glm::vec3(float(85) / float(255), float(81) / float(255), float(66) / float(255)));
+	forestGround->setColor(glm::vec3(float(0) / float(255), float(154) / float(255), float(23) / float(255)));
 	MatrixHandler::scale(forestGround->getMatRef(), glm::vec3(50.0f, 1.0f, 50.0f));
 	forest->addObject(forestGround);
 	Model* giftM = ModelFactory::premade(ModelType::giftN);
@@ -184,15 +199,18 @@ void Engine::initScenes() {
 			probability2 = rand() % 100 + 1;
 			probability3 = rand() % 100 + 1;
 		}
+	}
 	forest->setLightPos(glm::vec3(.0f, 30.0f, .0f));
 	forest->addCamera(camera);
+	forest->background = glm::vec4(.52f, .80f, .92f, 1.f);
 	scenes.push_back(forest);
-	}
+	printf("size %d\n", scenes.size());
 }
 void Engine::startRendering() {
 
 	currentScene = scenes.front();
 	glEnable(GL_DEPTH_TEST);
+	glClearColor(this->currentScene->background.x, this->currentScene->background.y, this->currentScene->background.z, this->currentScene->background.w);
 
 	currentScene->getCurrentCam()->notify();
 	while (!glfwWindowShouldClose(this->window->getGLFWWindow())) {
@@ -221,9 +239,12 @@ Window* Engine::getWindow() {
 }
 void Engine::nextScene() {
 	GLint nextSeq = this->currentScene->sceneSeq + 1;
-	if (nextSeq > scenes.size()+1)
+	if (nextSeq+1 > scenes.size())
 		nextSeq = 0;
 	this->currentScene = scenes.at(nextSeq);
+	glClearColor(this->currentScene->background.x, this->currentScene->background.y, this->currentScene->background.z, this->currentScene->background.w);
+	printf("size %d, nextSeq %d \n", scenes.size(), nextSeq);
+	printf("Switched scene to scene %d \n", nextSeq);
 }
 void Engine::onClick(int button, int action, double x, double y) {
 	if (action == GLFW_PRESS) {

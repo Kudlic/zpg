@@ -10,6 +10,7 @@ private:
 	glm::vec3 lightPos;
 	Camera* currentCam;
 public:
+	glm::vec4 background;
 	GLint sceneSeq;
 	Scene(GLint sceneSeq);
 	void draw(GLfloat timeDelta);
