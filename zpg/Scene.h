@@ -1,6 +1,7 @@
 #pragma once
 #include "Object.h"
 #include "Camera.h"
+#include "Skybox.h"
 #include <vector>
 class Scene
 {
@@ -9,6 +10,7 @@ private:
 	std::vector <Camera*> cameras;
 	glm::vec3 lightPos;
 	Camera* currentCam;
+	Skybox* skybox;
 public:
 	glm::vec4 background;
 	GLint sceneSeq;
@@ -18,5 +20,6 @@ public:
 	void addCamera(Camera* cam, GLboolean setCurrent = true);
 	void addObject(Object* obj);
 	void setLightPos(glm::vec3 lightPos);
+	void setSkybox(Skybox* skybox);
 };
 

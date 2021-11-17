@@ -88,8 +88,21 @@ void Camera::detach(IObserver* observer)  {
 		observers.erase(iterator); // remove the observer
 	}
 }
+void Camera::attach(IPositionObserver* observer) {
+	posObservers.push_back(observer);
+}
+void Camera::detach(IPositionObserver* observer) {
+	auto iterator = std::find(posObservers.begin(), posObservers.end(), observer);
+
+	if (iterator != posObservers.end()) { // observer found
+		posObservers.erase(iterator); // remove the observer
+	}
+}
 void Camera::notify()  {
 	for (IObserver* observer : observers) { // notify all observers
 		observer->update(viewMat, projMat, position);
+	}
+	for (IPositionObserver* observer : posObservers) { // notify all observers
+		observer->update(this->position);
 	}
 } 

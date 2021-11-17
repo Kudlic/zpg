@@ -6,10 +6,11 @@
 #include "Shaders/ShaderProg.h"
 #include "Model.h"
 #include "Utilities/MatrixHandler.h"
-class Object
+#include "Utilities/IDrawable.h"
+class Object : public IDrawable
 {
 private:
-	ShaderProg* shaderProgram;
+	ShaderProg* shaderProgram; 
 	glm::mat4 transMat;
 	Model* model;
 	GLint idModelTransform;
@@ -17,8 +18,9 @@ private:
 	glm::vec3 rotationAxis;
 	glm::vec4 color;
 public:
+	Object();
 	Object(Model* model, ShaderProg* shaderProgram);
-	void draw();
+	virtual void draw() override;
 	ShaderProg* getShader();
 	glm::mat4* getMatRef();
 	void setRotation(GLfloat rotationAngle, glm::vec3 rotationAxis);

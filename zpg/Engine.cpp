@@ -86,6 +86,7 @@ void Engine::initScenes() {
 	ShaderProg* lambSp = new ShaderProg("./Shaders/vertex_shader_lambert.glsl", "./Shaders/fragment_shader_lambert.glsl");
 	ShaderProg* phongSp = new ShaderProg("./Shaders/vertex_shader_phong.glsl", "./Shaders/fragment_shader_phong.glsl");
 	ShaderProg* textureSp = new ShaderProg("./Shaders/vertex_shader_phong_texture.glsl", "./Shaders/fragment_shader_phong_texture.glsl");
+	ShaderProg* baseTextureSp = new ShaderProg("./Shaders/vertex_shader_texture.glsl", "./Shaders/fragment_shader_texture.glsl");
 
 	Object* cube = new Object(Model::create(points1, 10, 6).positionAttrib(0).mode(GL_TRIANGLE_STRIP).build(), constSp);
 
@@ -112,6 +113,7 @@ void Engine::initScenes() {
 	suziSmoothO->setRotation(-0.02f, glm::vec3(.0f, 1.0f, .0f));
 	MatrixHandler::translate(suziSmoothO->getMatRef(), glm::vec3(5.0f, 0.0f, 8.0f));
 
+	Skybox* skybox = new Skybox(baseTextureSp);
 
 	Camera* camera = new Camera(window->getWidth(), window->getHeight(), glm::vec3(0.0f, 0.0f, 5.0f));
 	camera->attach(constSp);
@@ -119,11 +121,11 @@ void Engine::initScenes() {
 	camera->attach(lambSp);
 	camera->attach(phongSp);
 	camera->attach(textureSp);
-
+	camera->attach(baseTextureSp);
 
 	Scene* testScene = new Scene(sceneSeq); sceneSeq += 1;	
-	testScene->addObject(cube);
-	testScene->addObject(roof);
+	//testScene->addObject(cube);
+	//testScene->addObject(roof);
 	testScene->addObject(sphereO);
 	testScene->addObject(plainO);
 	testScene->addObject(suziFlatO);
@@ -131,6 +133,7 @@ void Engine::initScenes() {
 	testScene->addObject(plainOT);
 	testScene->addCamera(camera);
 	testScene->setLightPos(glm::vec3(.0f, .0f, .0f));
+	testScene->setSkybox(skybox);
 
 	printf("size %d\n", scenes.size());
 	scenes.push_back(testScene);

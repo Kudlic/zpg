@@ -28,6 +28,7 @@ private:
 	glm::mat4 viewMat;
 public:
 	std::vector<IObserver*> observers;
+	std::vector<IPositionObserver*> posObservers;
 	// Stores the main vectors of the camera
 	glm::vec3 orientation = glm::vec3(0.0f, 0.0f, -1.0f);
 	glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
@@ -49,6 +50,8 @@ public:
 	void rotate(double xoffset, double yoffset, GLboolean constrainPitch = true);
 	virtual void attach(IObserver* observer) override;
 	virtual void detach(IObserver* observer) override;
+	virtual void attach(IPositionObserver* observer) override;
+	virtual void detach(IPositionObserver* observer) override;
 	virtual void notify() override;
 
 };

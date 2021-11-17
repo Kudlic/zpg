@@ -13,7 +13,8 @@ Model* ModelFactory::premade(ModelType type) {
 	case ModelType::plainNT:
 	{
 		Model* model = Model::create(plain, 6, 8).positionAttrib(0).normalAttrib(3).texAttrib(6).build();
-		Texture* tex = new Texture("./Textures/test.png", 0);
+		Texture* tex = new TextureRGBA("./Textures/test.png", 0);
+		//tex = new TextureRGB("./Textures/wood.jpg", 0);
 		model->bindTexture(tex);
 		return model;
 	}

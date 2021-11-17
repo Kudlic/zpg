@@ -72,6 +72,15 @@
     <ClCompile Include="stb.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TextureRGBA.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureRGB.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Skybox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -149,6 +158,21 @@
     <ClInclude Include="Texture.h">
       <Filter>Header Files\textures</Filter>
     </ClInclude>
+    <ClInclude Include="TextureRGBA.h">
+      <Filter>Header Files\textures</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureRGB.h">
+      <Filter>Header Files\textures</Filter>
+    </ClInclude>
+    <ClInclude Include="Skybox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\IDrawable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\IPositionObserver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Fragment_shader.glsl">
@@ -179,6 +203,13 @@
       <Filter>Header Files\shaders</Filter>
     </None>
     <None Include="Shaders\Vertex_shader_phong_texture.glsl">
+      <Filter>Header Files\shaders</Filter>
+    </None>
+    <None Include="ClassDiagram.cd" />
+    <None Include="Shaders\Fragment_shader_texture.glsl">
+      <Filter>Header Files\shaders</Filter>
+    </None>
+    <None Include="Shaders\Vertex_shader_texture.glsl">
       <Filter>Header Files\shaders</Filter>
     </None>
   </ItemGroup>

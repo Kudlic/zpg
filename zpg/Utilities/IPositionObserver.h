@@ -5,8 +5,8 @@
 #include <glm/mat4x4.hpp>
 #include <glm/vec3.hpp>
 
-class IObserver {
+class IPositionObserver {
 public:
-	virtual ~IObserver() {};
-	virtual void update(glm::mat4 viewMat, glm::mat4 projMat, glm::vec3 camPos) = 0;
+	virtual ~IPositionObserver() {};
+	virtual void update(glm::vec3 position) = 0;
 };

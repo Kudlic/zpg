@@ -1,5 +1,7 @@
 #include "Object.h"
+Object::Object() {
 
+}
 Object::Object(Model* model, ShaderProg* shaderProgram) {
 	this->model = model;
 	this->shaderProgram = shaderProgram;

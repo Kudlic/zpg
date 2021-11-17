@@ -6,6 +6,10 @@
 #include "VBO.h"
 #include "ModelBuilder.h"
 #include "Texture.h"
+#include "TextureRGB.h"
+#include "TextureRGBA.h"
+
+
 class ModelBuilder;
 
 class Model {

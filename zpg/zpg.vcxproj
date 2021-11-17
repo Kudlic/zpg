@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -152,8 +152,11 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Shaders\ShaderLoader.cpp" />
     <ClCompile Include="Shaders\ShaderProg.cpp" />
+    <ClCompile Include="Skybox.cpp" />
     <ClCompile Include="stb.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="TextureRGB.cpp" />
+    <ClCompile Include="TextureRGBA.cpp" />
     <ClCompile Include="Utilities\MatrixHandler.cpp" />
     <ClCompile Include="VAO.cpp" />
     <ClCompile Include="VBO.cpp" />
@@ -178,8 +181,13 @@
     <ClInclude Include="Shaders\ShaderLoader.h" />
     <ClInclude Include="Shaders\ShaderProg.h" />
     <ClInclude Include="Shaders\Vertex_shader.h" />
+    <ClInclude Include="Skybox.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="TextureRGB.h" />
+    <ClInclude Include="TextureRGBA.h" />
+    <ClInclude Include="Utilities\IDrawable.h" />
     <ClInclude Include="Utilities\IObserver.h" />
+    <ClInclude Include="Utilities\IPositionObserver.h" />
     <ClInclude Include="Utilities\ISubject.h" />
     <ClInclude Include="Utilities\MatrixHandler.h" />
     <ClInclude Include="VAO.h" />
@@ -187,16 +195,19 @@
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram.cd" />
     <None Include="Shaders\Fragment_shader.glsl" />
     <None Include="Shaders\Fragment_shader_constant.glsl" />
     <None Include="Shaders\Fragment_shader_lambert.glsl" />
     <None Include="Shaders\Fragment_shader_phong.glsl" />
     <None Include="Shaders\Fragment_shader_phong_texture.glsl" />
+    <None Include="Shaders\Fragment_shader_texture.glsl" />
     <None Include="Shaders\Vertex_shader.glsl" />
     <None Include="Shaders\Vertex_shader_constant.glsl" />
     <None Include="Shaders\Vertex_shader_lambert.glsl" />
     <None Include="Shaders\Vertex_shader_phong.glsl" />
     <None Include="Shaders\Vertex_shader_phong_texture.glsl" />
+    <None Include="Shaders\Vertex_shader_texture.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
