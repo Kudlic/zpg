@@ -81,6 +81,15 @@
     <ClCompile Include="Skybox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectionalLight.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PointLight.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -173,6 +182,15 @@
     <ClInclude Include="Utilities\IPositionObserver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectionalLight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PointLight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Fragment_shader.glsl">
@@ -210,6 +228,12 @@
       <Filter>Header Files\shaders</Filter>
     </None>
     <None Include="Shaders\Vertex_shader_texture.glsl">
+      <Filter>Header Files\shaders</Filter>
+    </None>
+    <None Include="Fragment_shader_lights.glsl">
+      <Filter>Header Files\shaders</Filter>
+    </None>
+    <None Include="Vertex_shader_lights.glsl">
       <Filter>Header Files\shaders</Filter>
     </None>
   </ItemGroup>

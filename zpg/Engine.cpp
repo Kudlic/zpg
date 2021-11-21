@@ -87,6 +87,7 @@ void Engine::initScenes() {
 	ShaderProg* phongSp = new ShaderProg("./Shaders/vertex_shader_phong.glsl", "./Shaders/fragment_shader_phong.glsl");
 	ShaderProg* textureSp = new ShaderProg("./Shaders/vertex_shader_phong_texture.glsl", "./Shaders/fragment_shader_phong_texture.glsl");
 	ShaderProg* baseTextureSp = new ShaderProg("./Shaders/vertex_shader_texture.glsl", "./Shaders/fragment_shader_texture.glsl");
+	ShaderProg* lightsSp = new ShaderProg("./Shaders/vertex_shader_lights.glsl", "./Shaders/fragment_shader_lights.glsl");
 
 	Object* cube = new Object(Model::create(points1, 10, 6).positionAttrib(0).mode(GL_TRIANGLE_STRIP).build(), constSp);
 
@@ -101,9 +102,10 @@ void Engine::initScenes() {
 	MatrixHandler::translate(plainO->getMatRef(), glm::vec3(0.0f, -5.0f, 0.0f));
 	plainO->setRotation(0.01f, glm::vec3(1.0f, .0f, .0f));
 
-	Object* plainOT = new Object(ModelFactory::premade(ModelType::plainNT), textureSp);
+	Object* plainOT = new Object(ModelFactory::premade(ModelType::plainNT), lightsSp);
 	MatrixHandler::translate(plainOT->getMatRef(), glm::vec3(0.0f, -10.0f, 0.0f));
 	MatrixHandler::scale(plainOT->getMatRef(), glm::vec3(10.3f, 10.3f, 10.3f));
+	plainOT->setRotation(0.01f, glm::vec3(1.0f, .0f, .0f));
 	
 	Object* suziFlatO = new Object(ModelFactory::premade(ModelType::suziFlatN), lambSp);
 	suziFlatO->setRotation(0.02f, glm::vec3(.0f, 1.0f, .0f));
@@ -122,18 +124,21 @@ void Engine::initScenes() {
 	camera->attach(phongSp);
 	camera->attach(textureSp);
 	camera->attach(baseTextureSp);
-
+	camera->attach(lightsSp);
+		
 	Scene* testScene = new Scene(sceneSeq); sceneSeq += 1;	
-	//testScene->addObject(cube);
-	//testScene->addObject(roof);
+	testScene->addObject(cube);
+	testScene->addObject(roof);
 	testScene->addObject(sphereO);
 	testScene->addObject(plainO);
 	testScene->addObject(suziFlatO);
 	testScene->addObject(suziSmoothO);
 	testScene->addObject(plainOT);
 	testScene->addCamera(camera);
-	testScene->setLightPos(glm::vec3(.0f, .0f, .0f));
+	testScene->setLightPos(glm::vec3(5.0f, .0f, .0f));
 	testScene->setSkybox(skybox);
+	testScene->addLight(PointLight(glm::vec3(0.f, -5.f, 0.f)));
+	testScene->addLight(PointLight(glm::vec3(-5.f, 0.f, 0.f)));
 
 	printf("size %d\n", scenes.size());
 	scenes.push_back(testScene);
