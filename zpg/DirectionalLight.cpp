@@ -11,3 +11,6 @@ DirectionalLight::DirectionalLight(glm::vec3 ambient, glm::vec3 diffuse, glm::ve
 void DirectionalLight::setDirectionUni(GLint location) {
 	glUniform3fv(location, 1, glm::value_ptr(this->direction));
 }
+void DirectionalLight::setDirection(glm::vec3 direction) {
+	this->direction = direction;
+}

@@ -152,6 +152,7 @@
     <ClCompile Include="ModelFactory.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="PointLight.cpp" />
+    <ClCompile Include="ReflectorLight.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Shaders\ShaderLoader.cpp" />
     <ClCompile Include="Shaders\ShaderProg.cpp" />
@@ -182,6 +183,7 @@
     <ClInclude Include="Models\tree.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="PointLight.h" />
+    <ClInclude Include="ReflectorLight.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Shaders\Fragment_shader.h" />
     <ClInclude Include="Shaders\ShaderLoader.h" />

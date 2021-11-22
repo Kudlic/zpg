@@ -9,6 +9,8 @@ Camera::Camera(int width, int height, glm::vec3 position)
 	calcOrientation();
 	viewMat = glm::lookAt(this->position, this->position + orientation, worldUp);
 	projMat = glm::perspective(glm::radians(60.0f), (float)width / height, 0.1f, 200.0f);
+	this->flashlight = ReflectorLight();
+	this->flashOn = 1;
 }
 
 void Camera::updateShader(ShaderProg* shaderProg) {
@@ -75,7 +77,9 @@ void Camera::calcProjection(GLint width, GLint height) {
 	projMat = glm::perspective(glm::radians(60.0f), (float)width / height, 0.1f, 200.0f);
 	this->notify();
 }
-
+void Camera::toggleFlashlight() {
+	this->flashOn = !this->flashOn;
+}
 //Observer functions
 
 void Camera::attach(IObserver* observer)  {
@@ -105,4 +109,6 @@ void Camera::notify()  {
 	for (IPositionObserver* observer : posObservers) { // notify all observers
 		observer->update(this->position);
 	}
+	this->flashlight.setPosition(this->position);
+	this->flashlight.setDirection(this->orientation);
 } 

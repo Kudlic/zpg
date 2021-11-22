@@ -27,3 +27,6 @@ void PointLight::setLinearUni(GLint location) {
 void PointLight::setQuadraticUni(GLint location) {
 	glUniform1f(location, this->quadratic);
 }
+void PointLight::setPosition(glm::vec3 position) {
+	this->position = position;
+}

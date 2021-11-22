@@ -28,6 +28,18 @@ void Scene::draw(GLfloat timeDelta) {
 			pointLights.at(i).setLinearUni(element->getShader()->getUniformLocation(((std::string("pointLights[") + is + std::string("].linear")).c_str())));
 			pointLights.at(i).setQuadraticUni(element->getShader()->getUniformLocation(((std::string("pointLights[") + is + std::string("].quadratic")).c_str())));
 		}
+		if(this->currentCam->flashOn){
+			this->currentCam->flashlight.setAmbientUni(element->getShader()->getUniformLocation("flashlight.ambient"));
+			this->currentCam->flashlight.setDiffuseUni(element->getShader()->getUniformLocation("flashlight.diffuse"));
+			this->currentCam->flashlight.setSpecularUni(element->getShader()->getUniformLocation("flashlight.specular"));
+			this->currentCam->flashlight.setDirectionUni(element->getShader()->getUniformLocation("flashlight.direction"));
+			this->currentCam->flashlight.setPositionUni(element->getShader()->getUniformLocation("flashlight.position"));
+			this->currentCam->flashlight.setConstantUni(element->getShader()->getUniformLocation("flashlight.constant"));
+			this->currentCam->flashlight.setLinearUni(element->getShader()->getUniformLocation("flashlight.linear"));
+			this->currentCam->flashlight.setQuadraticUni(element->getShader()->getUniformLocation("flashlight.quadratic"));
+			this->currentCam->flashlight.setCutOffUni(element->getShader()->getUniformLocation("flashlight.cutOff"));
+			this->currentCam->flashlight.setOuterCutOffUni(element->getShader()->getUniformLocation("flashlight.outerCutOff"));
+		}
 		glUniform1i(element->getShader()->getUniformLocation("pointLightsCount"), pointLights.size());
 		glUniform3fv(element->getShader()->getUniformLocation("lightPos"), 1, glm::value_ptr(this->lightPos));
 		element->draw();

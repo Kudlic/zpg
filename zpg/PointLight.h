@@ -16,5 +16,6 @@ public:
     void setConstantUni(GLint location);
     void setLinearUni(GLint location);
     void setQuadraticUni(GLint location);
+    void setPosition(glm::vec3 position);
 };
 

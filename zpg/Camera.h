@@ -9,6 +9,7 @@
 #include "Utilities/ISubject.h"
 #include <vector>
 #include"Shaders/ShaderProg.h"
+#include"ReflectorLight.h"
 
 const glm::vec3 worldUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
@@ -38,6 +39,8 @@ public:
 	GLfloat sensitivity = 0.05f;
 	GLfloat pitch;
 	GLfloat yaw;
+	ReflectorLight flashlight;
+	GLboolean flashOn;
 
 	// Camera constructor to set up initial values
 	Camera(int width, int height, glm::vec3 position);
@@ -48,6 +51,7 @@ public:
 	void calcProjection(GLint width, GLint height);
 	void move(Camera_Movement direction);
 	void rotate(double xoffset, double yoffset, GLboolean constrainPitch = true);
+	void toggleFlashlight();
 	virtual void attach(IObserver* observer) override;
 	virtual void detach(IObserver* observer) override;
 	virtual void attach(IPositionObserver* observer) override;
