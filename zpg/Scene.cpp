@@ -42,6 +42,7 @@ void Scene::draw(GLfloat timeDelta) {
 		}
 		glUniform1i(element->getShader()->getUniformLocation("pointLightsCount"), pointLights.size());
 		glUniform3fv(element->getShader()->getUniformLocation("lightPos"), 1, glm::value_ptr(this->lightPos));
+		glStencilFunc(GL_ALWAYS, element->getObjID(), 0xFF);
 		element->draw();
 	}
 }

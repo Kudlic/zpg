@@ -16,7 +16,9 @@ private:
 	Engine();
 
 public:
+	std::vector <ShaderProg*> shaders;
 	Scene* currentScene;
+	
 	void init();
 
 	void startRendering();
@@ -27,6 +29,7 @@ public:
 	virtual void onClick(int button, int action, double x, double y);
 	void processHeldKeys();
 	void nextScene();
+	GLint genIndex();
 
 	Window* getWindow();
 

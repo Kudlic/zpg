@@ -17,14 +17,16 @@ private:
 	GLfloat rotationAngle;
 	glm::vec3 rotationAxis;
 	glm::vec4 color;
+	GLint objID;
 public:
 	Object();
-	Object(Model* model, ShaderProg* shaderProgram);
+	Object(Model* model, ShaderProg* shaderProgram, GLint objID = 0);
 	virtual void draw() override;
 	ShaderProg* getShader();
 	glm::mat4* getMatRef();
 	void setRotation(GLfloat rotationAngle, glm::vec3 rotationAxis);
 	void setColor(glm::vec4 color);
 	void setColor(glm::vec3 color);
+	GLint getObjID();
 };
 

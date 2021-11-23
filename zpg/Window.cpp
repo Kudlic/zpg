@@ -25,6 +25,7 @@ Window::Window(int width1, int height1, const char* title){
 		});
 
 	glfwSetMouseButtonCallback(window, [](GLFWwindow* window, int button, int action, int mods) {
+
 		double xpos, ypos;
 		glfwGetCursorPos(window, &xpos, &ypos);
 		Engine::getInstance()->onClick(button, action, xpos, ypos);

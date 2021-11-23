@@ -26,8 +26,8 @@ class Camera : public ISubject
 {
 private:
 	glm::vec3 position;
-	glm::mat4 viewMat;
 public:
+	glm::mat4 viewMat;
 	std::vector<IObserver*> observers;
 	std::vector<IPositionObserver*> posObservers;
 	// Stores the main vectors of the camera

@@ -2,7 +2,7 @@
 Object::Object() {
 
 }
-Object::Object(Model* model, ShaderProg* shaderProgram) {
+Object::Object(Model* model, ShaderProg* shaderProgram, GLint objID) {
 	this->model = model;
 	this->shaderProgram = shaderProgram;
 	this->rotationAngle = 0.0f;
@@ -10,6 +10,7 @@ Object::Object(Model* model, ShaderProg* shaderProgram) {
 	this->transMat = glm::mat4(1.0f);
 	this->idModelTransform = this->shaderProgram->getUniformLocation("modelMatrix");
 	this->color = glm::vec4(1.0f, 0.7f, 0.05f, 1.f);
+	this->objID = objID;
 }
 void Object::draw() {
 	shaderProgram->useShader();
@@ -39,4 +40,7 @@ void Object::setColor(glm::vec4 color) {
 }
 void Object::setColor(glm::vec3 color) {
 	this->color = glm::vec4(color, 1);
+}
+GLint Object::getObjID() {
+	return this->objID;
 }

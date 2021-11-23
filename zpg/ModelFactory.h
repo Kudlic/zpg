@@ -18,7 +18,8 @@ enum class ModelType {
 	giftN,
 	plainN,
 	plainNT,
-	houseTextured
+	houseTextured,
+	terrain
 };
 class ModelFactory
 {

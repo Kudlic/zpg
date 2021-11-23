@@ -17,7 +17,21 @@ float deltaTime = 0.0f;	// time between current frame and last frame
 float lastFrame = 0.0f;
 GLboolean camMove = false;	//flag for held right click
 GLfloat screenX, screenY; //save location for right click
+GLint objectSeq = 1;
 
+Engine::Engine() {
+	init();
+}
+
+Engine* Engine::getInstance()
+{
+	if (instance == 0)
+	{
+		instance = new Engine();
+	}
+
+	return instance;
+}
 void Engine::init() {
 
 	glfwSetErrorCallback([](int err, const char* description) -> void {
@@ -88,6 +102,11 @@ void Engine::initScenes() {
 	ShaderProg* textureSp = new ShaderProg("./Shaders/vertex_shader_phong_texture.glsl", "./Shaders/fragment_shader_phong_texture.glsl");
 	ShaderProg* baseTextureSp = new ShaderProg("./Shaders/vertex_shader_texture.glsl", "./Shaders/fragment_shader_texture.glsl");
 	ShaderProg* lightsSp = new ShaderProg("./Shaders/vertex_shader_lights.glsl", "./Shaders/fragment_shader_lights.glsl");
+	this->shaders.push_back(lambSp);
+	this->shaders.push_back(phongSp);
+	this->shaders.push_back(textureSp);
+	this->shaders.push_back(baseTextureSp);
+	this->shaders.push_back(lightsSp);
 
 	Object* cube = new Object(Model::create(points1, 10, 6).positionAttrib(0).mode(GL_TRIANGLE_STRIP).build(), constSp);
 
@@ -103,7 +122,7 @@ void Engine::initScenes() {
 	plainO->setRotation(0.01f, glm::vec3(1.0f, .0f, .0f));
 
 	Object* building = new Object(ModelFactory::premade(ModelType::houseTextured), lightsSp);
-	MatrixHandler::scale(building->getMatRef(), glm::vec3(3.3f, 3.3f, 3.3f));
+	
 
 	Object* plainOT = new Object(ModelFactory::premade(ModelType::plainNT), lightsSp);
 	MatrixHandler::translate(plainOT->getMatRef(), glm::vec3(0.0f, -10.0f, 0.0f));
@@ -118,6 +137,8 @@ void Engine::initScenes() {
 	suziSmoothO->setRotation(-0.02f, glm::vec3(.0f, 1.0f, .0f));
 	MatrixHandler::translate(suziSmoothO->getMatRef(), glm::vec3(5.0f, 0.0f, 8.0f));
 
+	Object* terrain = new Object(ModelFactory::premade(ModelType::terrain), lightsSp, this->genIndex());
+	MatrixHandler::scale(terrain->getMatRef(), glm::vec3(2.0f, 2.0f, 2.0f));
 
 	Skybox* skybox = new Skybox(baseTextureSp);
 
@@ -131,19 +152,21 @@ void Engine::initScenes() {
 	camera->attach(lightsSp);
 		
 	Scene* testScene = new Scene(sceneSeq); sceneSeq += 1;	
-	testScene->addObject(cube);
-	testScene->addObject(roof);
-	testScene->addObject(sphereO);
-	testScene->addObject(plainO);
-	testScene->addObject(suziFlatO);
-	testScene->addObject(suziSmoothO);
+	//testScene->addObject(cube);
+	//testScene->addObject(roof);
+	//testScene->addObject(sphereO);
+	//testScene->addObject(plainO);
+	//testScene->addObject(suziFlatO);
+	//testScene->addObject(suziSmoothO);
 	testScene->addObject(building);
-	testScene->addObject(plainOT);
+	//testScene->addObject(plainOT);
+	testScene->addObject(terrain);
 	testScene->addCamera(camera);
 	testScene->setLightPos(glm::vec3(5.0f, .0f, .0f));
 	testScene->setSkybox(skybox);
 	testScene->addLight(PointLight(glm::vec3(0.f, -5.f, 0.f)));
 	testScene->addLight(PointLight(glm::vec3(-5.f, 0.f, 0.f)));
+	testScene->setDirLight(DirectionalLight(glm::vec3(0.2f, 0.2f, 0.2f), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(0.2f, 0.2f, 0.2f), glm::vec3(0.2f, -1.f, 0.4f)));
 
 	printf("size %d\n", scenes.size());
 	scenes.push_back(testScene);
@@ -223,6 +246,8 @@ void Engine::startRendering() {
 
 	currentScene = scenes.front();
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_STENCIL_TEST);
+	glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
 	glClearColor(this->currentScene->background.x, this->currentScene->background.y, this->currentScene->background.z, this->currentScene->background.w);
 
 	currentScene->getCurrentCam()->notify();
@@ -231,7 +256,7 @@ void Engine::startRendering() {
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
 		// clear color and depth buffer
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 		//currentScene->getCurrentCam()->UpdateShader(sp->getShaderProgram());
 		currentScene->draw(deltaTime);
 		processHeldKeys();
@@ -250,6 +275,13 @@ exit(EXIT_SUCCESS);
 Window* Engine::getWindow() {
 	return this->window;
 }
+
+GLint Engine::genIndex() {
+	GLint toRet = objectSeq;
+	objectSeq += 1;
+	return toRet;
+}
+
 void Engine::nextScene() {
 	GLint nextSeq = this->currentScene->sceneSeq + 1;
 	if (nextSeq+1 > scenes.size())
@@ -276,6 +308,33 @@ void Engine::onClick(int button, int action, double x, double y) {
 		camMove = false;
 		glfwSetInputMode(window->getGLFWWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	}
+	if (action == GLFW_PRESS && button == GLFW_MOUSE_BUTTON_MIDDLE && !camMove) {
+		GLbyte color[4];
+		GLfloat depth;
+		GLuint index;
+
+		GLint lx = (GLint)x;
+		GLint ly = (GLint)y;
+
+		int newy = window->getHeight() - y;
+
+		glReadPixels(x, newy, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, color);
+		glReadPixels(x, newy, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &depth);
+		glReadPixels(x, newy, 1, 1, GL_STENCIL_INDEX, GL_UNSIGNED_INT, &index);
+
+		printf("Clicked on pixel %d, %d, color %02hhx%02hhx%02hhx%02hhx, depth %f, stencil index %u\n",
+								 lx,   ly, color[0], color[1], color[2], color[3], depth,		index);
+		glm::vec3 screenX = glm::vec3(x, newy, depth);
+		glm::mat4 view = this->currentScene->getCurrentCam()->viewMat;
+		glm::mat4 projection = this->currentScene->getCurrentCam()->projMat;
+		glm::vec4 viewPort = glm::vec4(0, 0, window->getWidth(), window->getHeight());
+		glm::vec3 pos = glm::unProject(screenX, view, projection, viewPort);
+
+		printf("unProject [%f,%f,%f]\n", pos.x, pos.y, pos.z);
+		Object* toAdd = new Object(ModelFactory::premade(ModelType::giftN), this->shaders.at(0));
+		MatrixHandler::translate(toAdd->getMatRef(), glm::vec3(pos.x, pos.y, pos.z));
+		this->currentScene->addObject(toAdd);
+	}
 	return;
 }
 void Engine::onKey(int key, int scancode, int action, int mods) {
@@ -300,20 +359,6 @@ void Engine::onMove(double x, double y) {
 
 		this->currentScene->getCurrentCam()->rotate(xmove, ymove);
 	}
-}
-
-Engine::Engine() {
-	init();
-}
-
-Engine* Engine::getInstance()
-{
-	if (instance == 0)
-	{
-		instance = new Engine();
-	}
-
-	return instance;
 }
 void Engine::processHeldKeys() {
 	if (glfwGetKey(window->getGLFWWindow(), GLFW_KEY_W) == GLFW_PRESS)
