@@ -2,7 +2,9 @@
 
 #include <stdexcept>
 #include <glm/vec4.hpp>
-#include <memory>
+#include <assimp/Importer.hpp>// C++ importerinterface
+#include <assimp/scene.h>// aiSceneoutputdata structure
+#include <assimp/postprocess.h>// Post processingflags#include <memory>
 #include "Scene.h"
 #include "Window.h"
 

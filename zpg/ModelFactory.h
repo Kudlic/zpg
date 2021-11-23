@@ -17,7 +17,8 @@ enum class ModelType {
 	bushN,
 	giftN,
 	plainN,
-	plainNT
+	plainNT,
+	houseTextured
 };
 class ModelFactory
 {

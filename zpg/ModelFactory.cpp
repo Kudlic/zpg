@@ -19,6 +19,14 @@ Model* ModelFactory::premade(ModelType type) {
 		return model;
 	}
 		break;
+	case ModelType::houseTextured:
+	{
+		Model* model = Model::create("./Models/building.obj").positionAttrib(0).normalAttrib(3).texAttrib(6).build();
+		Texture* tex = new TextureRGBA("./Textures/building.png", 0);
+		model->bindTexture(tex);
+		return model;
+	}
+		break;
 	case ModelType::suziFlatN:
 		Model::create(suziFlat, 2904, 6).positionAttrib(0).normalAttrib(3).build();
 		break;

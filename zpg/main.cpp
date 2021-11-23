@@ -1,3 +1,4 @@
+
 //Include GLEW
 #include <GL/glew.h>
 //Include GLFW
@@ -15,9 +16,12 @@
 #include <stdio.h>
 
 #include"Engine.h"
+#include"TestMains.h"
 
 int main(void)
 {
-Engine* engine = Engine::getInstance();
-engine->startRendering();
+	//TestMains::main2();
+	Engine* engine = Engine::getInstance();
+	engine->startRendering();
 }
+

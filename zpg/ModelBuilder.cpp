@@ -2,6 +2,9 @@
 ModelBuilder::ModelBuilder(const GLfloat* points, int pointNo, int lineLen) {
 	this->model = new Model(points, pointNo, lineLen);
 }
+ModelBuilder::ModelBuilder(const char* data) {
+	this->model = new Model(data);
+}
 ModelBuilder ModelBuilder::mode(GLenum mode) {
 	this->model->mode = mode;
 	return *this;

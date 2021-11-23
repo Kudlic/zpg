@@ -88,13 +88,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\Libraries\glew-2.1.0\include;..\..\Libraries\soil\include;..\..\Libraries\glm;..\..\Libraries\glfw-3.3.4.bin.WIN32\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\Libraries\assimp\include;..\..\Libraries\glew-2.1.0\include;..\..\Libraries\soil\include;..\..\Libraries\glm;..\..\Libraries\glfw-3.3.4.bin.WIN32\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\..\Libraries\glfw-3.3.4.bin.WIN32\lib-vc2019;..\..\Libraries\soil\lib;..\..\Libraries\glew-2.1.0\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glu32.lib;glfw3.lib;glew32.lib;SOIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\Libraries\glfw-3.3.4.bin.WIN32\lib-vc2019;..\..\Libraries\soil\lib;..\..\Libraries\glew-2.1.0\lib\Release\Win32;..\..\Libraries\assimp\lib\Win32\v140\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;glfw3.lib;glew32.lib;SOIL.lib;assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -147,6 +147,7 @@
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MainTestAsimp.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="ModelBuilder.cpp" />
     <ClCompile Include="ModelFactory.cpp" />
@@ -190,6 +191,7 @@
     <ClInclude Include="Shaders\ShaderProg.h" />
     <ClInclude Include="Shaders\Vertex_shader.h" />
     <ClInclude Include="Skybox.h" />
+    <ClInclude Include="TestMains.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureRGB.h" />
     <ClInclude Include="TextureRGBA.h" />

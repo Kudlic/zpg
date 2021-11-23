@@ -93,6 +93,9 @@
     <ClCompile Include="ReflectorLight.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MainTestAsimp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -195,6 +198,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ReflectorLight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TestMains.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

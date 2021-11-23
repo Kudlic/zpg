@@ -102,6 +102,9 @@ void Engine::initScenes() {
 	MatrixHandler::translate(plainO->getMatRef(), glm::vec3(0.0f, -5.0f, 0.0f));
 	plainO->setRotation(0.01f, glm::vec3(1.0f, .0f, .0f));
 
+	Object* building = new Object(ModelFactory::premade(ModelType::houseTextured), lightsSp);
+	MatrixHandler::scale(building->getMatRef(), glm::vec3(3.3f, 3.3f, 3.3f));
+
 	Object* plainOT = new Object(ModelFactory::premade(ModelType::plainNT), lightsSp);
 	MatrixHandler::translate(plainOT->getMatRef(), glm::vec3(0.0f, -10.0f, 0.0f));
 	MatrixHandler::scale(plainOT->getMatRef(), glm::vec3(10.3f, 10.3f, 10.3f));
@@ -114,6 +117,7 @@ void Engine::initScenes() {
 	Object* suziSmoothO = new Object(ModelFactory::premade(ModelType::suziSmoothN), phongSp);
 	suziSmoothO->setRotation(-0.02f, glm::vec3(.0f, 1.0f, .0f));
 	MatrixHandler::translate(suziSmoothO->getMatRef(), glm::vec3(5.0f, 0.0f, 8.0f));
+
 
 	Skybox* skybox = new Skybox(baseTextureSp);
 
@@ -133,6 +137,7 @@ void Engine::initScenes() {
 	testScene->addObject(plainO);
 	testScene->addObject(suziFlatO);
 	testScene->addObject(suziSmoothO);
+	testScene->addObject(building);
 	testScene->addObject(plainOT);
 	testScene->addCamera(camera);
 	testScene->setLightPos(glm::vec3(5.0f, .0f, .0f));
