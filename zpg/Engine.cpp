@@ -56,6 +56,7 @@ void Engine::init() {
 
 	//glfwSetInputMode(window->getGLFWWindow(), GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 	//glfwSetCursorPos(window->getGLFWWindow(), (window->getWidth() / 2), (window->getHeight() / 2));
+	this->am = AssetManager::getInstance();
 	this->initScenes();
 }
 void Engine::initScenes() {
@@ -102,11 +103,13 @@ void Engine::initScenes() {
 	ShaderProg* textureSp = new ShaderProg("./Shaders/vertex_shader_phong_texture.glsl", "./Shaders/fragment_shader_phong_texture.glsl");
 	ShaderProg* baseTextureSp = new ShaderProg("./Shaders/vertex_shader_texture.glsl", "./Shaders/fragment_shader_texture.glsl");
 	ShaderProg* lightsSp = new ShaderProg("./Shaders/vertex_shader_lights.glsl", "./Shaders/fragment_shader_lights.glsl");
-	this->shaders.push_back(lambSp);
-	this->shaders.push_back(phongSp);
-	this->shaders.push_back(textureSp);
-	this->shaders.push_back(baseTextureSp);
-	this->shaders.push_back(lightsSp);
+	this->am->saveShaderByName(colSp, "color");
+	this->am->saveShaderByName(constSp, "constant");
+	this->am->saveShaderByName(lambSp, "lambert");
+	this->am->saveShaderByName(phongSp, "phong");
+	this->am->saveShaderByName(textureSp, "texture");
+	this->am->saveShaderByName(baseTextureSp, "baseTexture");
+	this->am->saveShaderByName(lightsSp, "lights");
 
 	Object* cube = new Object(Model::create(points1, 10, 6).positionAttrib(0).mode(GL_TRIANGLE_STRIP).build(), constSp);
 
@@ -137,10 +140,10 @@ void Engine::initScenes() {
 	suziSmoothO->setRotation(-0.02f, glm::vec3(.0f, 1.0f, .0f));
 	MatrixHandler::translate(suziSmoothO->getMatRef(), glm::vec3(5.0f, 0.0f, 8.0f));
 
-	Object* terrain = new Object(ModelFactory::premade(ModelType::terrain), lightsSp, this->genIndex());
+	Object* terrain = new Object(ModelFactory::premade(ModelType::terrain), am->getShaderByName("lights"), this->genIndex());
 	MatrixHandler::scale(terrain->getMatRef(), glm::vec3(2.0f, 2.0f, 2.0f));
 
-	Skybox* skybox = new Skybox(baseTextureSp);
+	Skybox* skybox = new Skybox(am->getShaderByName("baseTexture"));
 
 	Camera* camera = new Camera(window->getWidth(), window->getHeight(), glm::vec3(0.0f, 0.0f, 5.0f));
 	camera->attach(constSp);
@@ -148,8 +151,8 @@ void Engine::initScenes() {
 	camera->attach(lambSp);
 	camera->attach(phongSp);
 	camera->attach(textureSp);
-	camera->attach(baseTextureSp);
-	camera->attach(lightsSp);
+	camera->attach(am->getShaderByName("baseTexture"));
+	camera->attach(am->getShaderByName("lights"));
 		
 	Scene* testScene = new Scene(sceneSeq); sceneSeq += 1;	
 	//testScene->addObject(cube);
@@ -164,8 +167,8 @@ void Engine::initScenes() {
 	testScene->addCamera(camera);
 	testScene->setLightPos(glm::vec3(5.0f, .0f, .0f));
 	testScene->setSkybox(skybox);
-	testScene->addLight(PointLight(glm::vec3(0.f, -5.f, 0.f)));
-	testScene->addLight(PointLight(glm::vec3(-5.f, 0.f, 0.f)));
+	testScene->addLight(PointLight(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.2f, 0.2f, 0.2f), glm::vec3(0.3f, 0.3f, 0.3f), glm::vec3(0.f, 2.f, 11.5f)));
+	testScene->addLight(PointLight(glm::vec3(-20.f, 0.2f, 0.f)));
 	testScene->setDirLight(DirectionalLight(glm::vec3(0.2f, 0.2f, 0.2f), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(0.2f, 0.2f, 0.2f), glm::vec3(0.2f, -1.f, 0.4f)));
 
 	printf("size %d\n", scenes.size());
@@ -308,7 +311,7 @@ void Engine::onClick(int button, int action, double x, double y) {
 		camMove = false;
 		glfwSetInputMode(window->getGLFWWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	}
-	if (action == GLFW_PRESS && button == GLFW_MOUSE_BUTTON_MIDDLE && !camMove) {
+	if (action == GLFW_PRESS && button == GLFW_MOUSE_BUTTON_LEFT && !camMove) {
 		GLbyte color[4];
 		GLfloat depth;
 		GLuint index;
@@ -331,9 +334,13 @@ void Engine::onClick(int button, int action, double x, double y) {
 		glm::vec3 pos = glm::unProject(screenX, view, projection, viewPort);
 
 		printf("unProject [%f,%f,%f]\n", pos.x, pos.y, pos.z);
-		Object* toAdd = new Object(ModelFactory::premade(ModelType::giftN), this->shaders.at(0));
-		MatrixHandler::translate(toAdd->getMatRef(), glm::vec3(pos.x, pos.y, pos.z));
-		this->currentScene->addObject(toAdd);
+		if ((glfwGetKey(window->getGLFWWindow(), GLFW_KEY_C) == GLFW_PRESS) && index != 0) {
+			Object* toAdd = new Object(am->getModelByName("texturedTree1"), am->getShaderByName("lights"));
+			MatrixHandler::translate(toAdd->getMatRef(), glm::vec3(pos.x, pos.y, pos.z));
+			MatrixHandler::scale(toAdd->getMatRef(), glm::vec3(.5f, .5f, .5f));
+			this->currentScene->addObject(toAdd);
+
+		}
 	}
 	return;
 }
@@ -342,6 +349,9 @@ void Engine::onKey(int key, int scancode, int action, int mods) {
 	if (action == GLFW_PRESS && key == GLFW_KEY_ESCAPE) {
 		printf("Zaviram\n");
 		glfwSetWindowShouldClose(window->getGLFWWindow(), GLFW_TRUE);
+	}
+	if (action == GLFW_PRESS && key == GLFW_KEY_L) {
+		this->currentScene->getCurrentCam()->toggleFlashlight();
 	}
 	if (action == GLFW_PRESS && key == GLFW_KEY_N) {
 		this->nextScene();

@@ -10,7 +10,6 @@ class Skybox : public IDrawable, public IPositionObserver
 private:
 	Object sides[6];
 	glm::vec3 position;
-	bool initialised;
 public:
 	Skybox(ShaderProg* sp);
 	virtual void draw() override;

@@ -50,7 +50,7 @@ uniform int pointLightsCount;
 
 out vec4 out_Color;
 
-vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir)
+vec4 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir)
 {
     vec3 toLightVector = normalize(-light.direction);
     // diffuse shading
@@ -62,10 +62,13 @@ vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir)
     vec3 ambient  = light.ambient;
     vec3 diffuse  = light.diffuse  * dot_product;
     vec3 specular = light.specular * spec;
-    return (vec3(texture(textureUnitID, ex_uv)) * ((ambient) + (diffuse)) + (specular));
+    vec4 texColor = texture(textureUnitID, ex_uv);
+    if(texColor.a < 0.1)
+        discard;
+    return (texColor * (vec4(ambient, 1.0) + vec4(diffuse, 1.0)) + vec4(specular, 1.0));
 }  
 
-vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
+vec4 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
 {
     vec3 toLightVector = normalize(light.position - fragPos);
     // diffuse shading
@@ -81,10 +84,10 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
     vec3 ambient  = light.ambient;
     vec3 diffuse  = light.diffuse  * dot_product;
     vec3 specular = light.specular * spec;
-    return (ambient + diffuse + specular) * attenuation;
+    return vec4(((ambient + diffuse + specular) * attenuation), 1.0);
 } 
 
-vec3 CalcSpotLight(SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
+vec4 CalcSpotLight(SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
 {
     vec3 toLightVector = normalize(light.position - fragPos);
     // diffuse shading
@@ -104,13 +107,13 @@ vec3 CalcSpotLight(SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
     vec3 ambient  = light.ambient;
     vec3 diffuse  = light.diffuse  * dot_product;
     vec3 specular = light.specular * spec;
-    return (ambient + diffuse + specular) * attenuation * intensity;
+    return vec4(((ambient + diffuse + specular) * attenuation * intensity), 1.0);
 }
 
 void main()
 {
   // define an output color value
-  vec3 base = vec3(0.0);
+  vec4 base = vec4(0.0);
   vec3 viewDirection = normalize(cameraPos - ex_worldPosition.xyz);
 
    // add the directional light's contribution to the base
@@ -123,5 +126,5 @@ void main()
   // and add others lights as well (like spotlights)
   base += CalcSpotLight(flashlight, ex_worldNormal, ex_worldPosition.xyz, viewDirection);
   
-  out_Color = vec4(base, 1.0);
+  out_Color = base;
 } 

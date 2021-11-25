@@ -15,5 +15,6 @@ class MatrixHandler
 		static void rotate(glm::mat4x4* tMat, float angle, glm::vec3 axis);
 		static void translate(glm::mat4x4* tMat, glm::vec3 transVec);
 		static void scale(glm::mat4x4* tMat, glm::vec3 scaleVec);
+		static void reset(glm::mat4x4* tMat);
 };
 

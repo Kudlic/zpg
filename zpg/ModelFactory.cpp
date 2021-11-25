@@ -30,7 +30,15 @@ Model* ModelFactory::premade(ModelType type) {
 	case ModelType::terrain:
 	{
 		Model* model = Model::create("./Models/teren.obj").positionAttrib(0).normalAttrib(3).texAttrib(6).build();
-		Texture* tex = new TextureRGBA("./Textures/grass.png", 0);
+		Texture* tex = new TextureRGB("./Textures/grass2.jpg", 0);
+		model->bindTexture(tex);
+		return model;
+	}
+	break;
+	case ModelType::treeO:
+	{
+		Model* model = Model::create("./Models/tree.obj").positionAttrib(0).normalAttrib(3).texAttrib(6).build();
+		Texture* tex = new TextureRGBA("./Textures/tree1.png", 0);
 		model->bindTexture(tex);
 		return model;
 	}

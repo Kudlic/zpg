@@ -2,7 +2,6 @@
 #include "Models/plain.h"
 
 Skybox::Skybox(ShaderProg* sp) {
-	initialised = 0;
 
 	Model* bottom = Model::create(plain, 6, 8).positionAttrib(0).texAttrib(6).build();
 	Texture* tex1 = new TextureRGB("./Textures/negy.jpg", 0);
@@ -57,76 +56,41 @@ void Skybox::draw() {
 	for (int i = 0; i < 6; i++) {
 		this->sides[i].draw();
 	}
-	glClear(GL_DEPTH_BUFFER_BIT);
+	glClear(GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 }
 
 void Skybox::update(glm::vec3 position) {
-	if (!initialised) {
-		this->position = position;
 
-		MatrixHandler::rotate((&this->sides[0])->getMatRef(), glm::radians(90.f), glm::vec3(0.0f, 1.f, .0f));
-		MatrixHandler::translate((&this->sides[0])->getMatRef(), position);
-		MatrixHandler::rotate((&this->sides[0])->getMatRef(), glm::radians(-90.f), glm::vec3(0.0f, 1.f, .0f));
-
-		MatrixHandler::rotate((&this->sides[1])->getMatRef(), glm::radians(90.f), glm::vec3(0.0f, 1.f, .0f));
-		MatrixHandler::translate((&this->sides[1])->getMatRef(), position);
-		MatrixHandler::rotate((&this->sides[1])->getMatRef(), glm::radians(-90.f), glm::vec3(0.0f, 1.f, .0f));
-
-		MatrixHandler::rotate((&this->sides[2])->getMatRef(), glm::radians(90.f), glm::vec3(0.0f, .0f, -1.0f));
-		MatrixHandler::rotate((&this->sides[2])->getMatRef(), glm::radians(-180.f), glm::vec3(1.0f, .0f, .0f));
-		MatrixHandler::translate((&this->sides[2])->getMatRef(), position);
-		MatrixHandler::rotate((&this->sides[2])->getMatRef(), glm::radians(180.f), glm::vec3(1.0f, .0f, .0f));
-		MatrixHandler::rotate((&this->sides[2])->getMatRef(), glm::radians(-90.f), glm::vec3(0.0f, .0f, -1.0f));
-
-		MatrixHandler::rotate((&this->sides[3])->getMatRef(), glm::radians(-90.f), glm::vec3(0.0f, .0f, -1.0f));
-		MatrixHandler::translate((&this->sides[3])->getMatRef(), position);
-		MatrixHandler::rotate((&this->sides[3])->getMatRef(), glm::radians(90.f), glm::vec3(0.0f, .0f, -1.0f));
-
-		MatrixHandler::rotate((&this->sides[4])->getMatRef(), glm::radians(90.f), glm::vec3(.0f, .0f, 1.0f));
-		MatrixHandler::rotate((&this->sides[4])->getMatRef(), glm::radians(-90.f), glm::vec3(0.0f, 1.0f, .0f));
-		MatrixHandler::translate((&this->sides[4])->getMatRef(), position);
-		MatrixHandler::rotate((&this->sides[4])->getMatRef(), glm::radians(90.f), glm::vec3(0.0f, 1.0f, .0f));
-		MatrixHandler::rotate((&this->sides[4])->getMatRef(), glm::radians(-90.f), glm::vec3(.0f, .0f, 1.0f));
-
-		MatrixHandler::rotate((&this->sides[5])->getMatRef(), glm::radians(90.f), glm::vec3(0.0f, 1.0f, .0f));
-		MatrixHandler::rotate((&this->sides[5])->getMatRef(), glm::radians(-90.f), glm::vec3(1.0f, .0f, .0f));
-		MatrixHandler::translate((&this->sides[5])->getMatRef(), position);
-		MatrixHandler::rotate((&this->sides[5])->getMatRef(), glm::radians(90.f), glm::vec3(1.0f, .0f, .0f));
-		MatrixHandler::rotate((&this->sides[5])->getMatRef(), glm::radians(-90.f), glm::vec3(0.0f, 1.0f, .0f));
+	this->position = position;
 		
-		this->initialised = 1;
-	}
-
-	else {
-		MatrixHandler::rotate((&this->sides[0])->getMatRef(), glm::radians(90.f), glm::vec3(0.0f, 1.f, .0f));
-		MatrixHandler::translate((&this->sides[0])->getMatRef(), position - this->position);
+	for(int i=0; i<6; i++)
+	{ 
+		MatrixHandler::reset((&this->sides[i])->getMatRef());
+	}	
+		MatrixHandler::translate((&this->sides[0])->getMatRef(), position);
+		MatrixHandler::translate((&this->sides[0])->getMatRef(), glm::vec3(0.0f, -1.0f, .0f));
 		MatrixHandler::rotate((&this->sides[0])->getMatRef(), glm::radians(-90.f), glm::vec3(0.0f, 1.f, .0f));
 
-		MatrixHandler::rotate((&this->sides[1])->getMatRef(), glm::radians(90.f), glm::vec3(0.0f, 1.f, .0f));
-		MatrixHandler::translate((&this->sides[1])->getMatRef(), position - this->position);
+		MatrixHandler::translate((&this->sides[1])->getMatRef(), position);
+		MatrixHandler::translate((&this->sides[1])->getMatRef(), glm::vec3(0.0f, 1.0f, .0f));
 		MatrixHandler::rotate((&this->sides[1])->getMatRef(), glm::radians(-90.f), glm::vec3(0.0f, 1.f, .0f));
 
-		MatrixHandler::rotate((&this->sides[2])->getMatRef(), glm::radians(90.f), glm::vec3(0.0f, .0f, -1.0f));
-		MatrixHandler::rotate((&this->sides[2])->getMatRef(), glm::radians(-180.f), glm::vec3(1.0f, .0f, .0f));
-		MatrixHandler::translate((&this->sides[2])->getMatRef(), position - this->position);
+		MatrixHandler::translate((&this->sides[2])->getMatRef(), position);
+		MatrixHandler::translate((&this->sides[2])->getMatRef(), glm::vec3(-1.0f, .0f, .0f));
 		MatrixHandler::rotate((&this->sides[2])->getMatRef(), glm::radians(180.f), glm::vec3(1.0f, .0f, .0f));
 		MatrixHandler::rotate((&this->sides[2])->getMatRef(), glm::radians(-90.f), glm::vec3(0.0f, .0f, -1.0f));
 
-		MatrixHandler::rotate((&this->sides[3])->getMatRef(), glm::radians(-90.f), glm::vec3(0.0f, .0f, -1.0f));
-		MatrixHandler::translate((&this->sides[3])->getMatRef(), position - this->position);
+		MatrixHandler::translate((&this->sides[3])->getMatRef(), position);
+		MatrixHandler::translate((&this->sides[3])->getMatRef(), glm::vec3(1.0f, .0f, .0f));
 		MatrixHandler::rotate((&this->sides[3])->getMatRef(), glm::radians(90.f), glm::vec3(0.0f, .0f, -1.0f));
 
-		MatrixHandler::rotate((&this->sides[4])->getMatRef(), glm::radians(90.f), glm::vec3(.0f, .0f, 1.0f));
-		MatrixHandler::rotate((&this->sides[4])->getMatRef(), glm::radians(-90.f), glm::vec3(0.0f, 1.0f, .0f));
-		MatrixHandler::translate((&this->sides[4])->getMatRef(), position - this->position);
+		MatrixHandler::translate((&this->sides[4])->getMatRef(), position);
+		MatrixHandler::translate((&this->sides[4])->getMatRef(), glm::vec3(.0f, .0f, -1.0f));
 		MatrixHandler::rotate((&this->sides[4])->getMatRef(), glm::radians(90.f), glm::vec3(0.0f, 1.0f, .0f));
 		MatrixHandler::rotate((&this->sides[4])->getMatRef(), glm::radians(-90.f), glm::vec3(.0f, .0f, 1.0f));
 
-		MatrixHandler::rotate((&this->sides[5])->getMatRef(), glm::radians(90.f), glm::vec3(0.0f, 1.0f, .0f));
-		MatrixHandler::rotate((&this->sides[5])->getMatRef(), glm::radians(-90.f), glm::vec3(1.0f, .0f, .0f));
-		MatrixHandler::translate((&this->sides[5])->getMatRef(), position - this->position);
+		MatrixHandler::translate((&this->sides[5])->getMatRef(), position);
+		MatrixHandler::translate((&this->sides[5])->getMatRef(), glm::vec3(.0f, .0f, 1.0f));
 		MatrixHandler::rotate((&this->sides[5])->getMatRef(), glm::radians(90.f), glm::vec3(1.0f, .0f, .0f));
 		MatrixHandler::rotate((&this->sides[5])->getMatRef(), glm::radians(-90.f), glm::vec3(0.0f, 1.0f, .0f));
-		this->position = position;
-	}
 }

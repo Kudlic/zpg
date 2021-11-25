@@ -22,6 +22,12 @@
     <Filter Include="Header Files\shaders">
       <UniqueIdentifier>{6a9c40dc-fc22-48a7-b699-9db22c5dd40a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\lights">
+      <UniqueIdentifier>{653ec0a4-6211-4885-8910-e35341fb562e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\lights">
+      <UniqueIdentifier>{a9198551-c79f-4e43-a697-8efcafe9694d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -81,20 +87,23 @@
     <ClCompile Include="Skybox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Light.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DirectionalLight.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PointLight.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ReflectorLight.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="MainTestAsimp.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AssetManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>Source Files\lights</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectionalLight.cpp">
+      <Filter>Source Files\lights</Filter>
+    </ClCompile>
+    <ClCompile Include="PointLight.cpp">
+      <Filter>Source Files\lights</Filter>
+    </ClCompile>
+    <ClCompile Include="ReflectorLight.cpp">
+      <Filter>Source Files\lights</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -188,20 +197,23 @@
     <ClInclude Include="Utilities\IPositionObserver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Light.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DirectionalLight.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PointLight.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ReflectorLight.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="TestMains.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>Header Files\lights</Filter>
+    </ClInclude>
+    <ClInclude Include="PointLight.h">
+      <Filter>Header Files\lights</Filter>
+    </ClInclude>
+    <ClInclude Include="ReflectorLight.h">
+      <Filter>Header Files\lights</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectionalLight.h">
+      <Filter>Header Files\lights</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -242,10 +254,10 @@
     <None Include="Shaders\Vertex_shader_texture.glsl">
       <Filter>Header Files\shaders</Filter>
     </None>
-    <None Include="Fragment_shader_lights.glsl">
+    <None Include="Shaders\Fragment_shader_lights.glsl">
       <Filter>Header Files\shaders</Filter>
     </None>
-    <None Include="Vertex_shader_lights.glsl">
+    <None Include="Shaders\Vertex_shader_lights.glsl">
       <Filter>Header Files\shaders</Filter>
     </None>
   </ItemGroup>

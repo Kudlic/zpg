@@ -8,3 +8,6 @@ void MatrixHandler::translate(glm::mat4x4* tMat, glm::vec3 transVec) {
 void MatrixHandler::scale(glm::mat4x4* tMat, glm::vec3 scaleVec) {
 	*tMat = glm::scale(*tMat, scaleVec);
 }
+void MatrixHandler::reset(glm::mat4x4* tMat) {
+	*tMat = glm::mat4(1.0f);;
+}

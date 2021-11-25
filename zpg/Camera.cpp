@@ -8,7 +8,7 @@ Camera::Camera(int width, int height, glm::vec3 position)
 	movementSpeed = 0.1f;
 	calcOrientation();
 	viewMat = glm::lookAt(this->position, this->position + orientation, worldUp);
-	projMat = glm::perspective(glm::radians(60.0f), (float)width / height, 0.1f, 200.0f);
+	projMat = glm::perspective(glm::radians(60.0f), (float)width / height, 0.1f, 500.0f);
 	this->flashlight = ReflectorLight();
 	this->flashOn = 1;
 }

@@ -142,6 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AssetManager.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DirectionalLight.cpp" />
     <ClCompile Include="Engine.cpp" />
@@ -168,6 +169,7 @@
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AssetManager.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="DirectionalLight.h" />
     <ClInclude Include="Engine.h" />
@@ -206,20 +208,20 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
-    <None Include="Fragment_shader_lights.glsl" />
     <None Include="Shaders\Fragment_shader.glsl" />
     <None Include="Shaders\Fragment_shader_constant.glsl" />
     <None Include="Shaders\Fragment_shader_lambert.glsl" />
+    <None Include="Shaders\Fragment_shader_lights.glsl" />
     <None Include="Shaders\Fragment_shader_phong.glsl" />
     <None Include="Shaders\Fragment_shader_phong_texture.glsl" />
     <None Include="Shaders\Fragment_shader_texture.glsl" />
     <None Include="Shaders\Vertex_shader.glsl" />
     <None Include="Shaders\Vertex_shader_constant.glsl" />
     <None Include="Shaders\Vertex_shader_lambert.glsl" />
+    <None Include="Shaders\Vertex_shader_lights.glsl" />
     <None Include="Shaders\Vertex_shader_phong.glsl" />
     <None Include="Shaders\Vertex_shader_phong_texture.glsl" />
     <None Include="Shaders\Vertex_shader_texture.glsl" />
-    <None Include="Vertex_shader_lights.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

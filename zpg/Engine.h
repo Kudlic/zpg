@@ -7,6 +7,7 @@
 #include <assimp/postprocess.h>// Post processingflags#include <memory>
 #include "Scene.h"
 #include "Window.h"
+#include "AssetManager.h"
 
 class Engine{
 private:
@@ -14,7 +15,7 @@ private:
 	static Engine* instance;
 	std::vector <Scene*> scenes;
 	Engine();
-
+	AssetManager* am;
 public:
 	std::vector <ShaderProg*> shaders;
 	Scene* currentScene;
