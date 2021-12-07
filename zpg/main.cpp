@@ -20,7 +20,7 @@
 
 int main(void)
 {
-	//TestMains::main2();
+	//TestMains::main3();
 	Engine* engine = Engine::getInstance();
 	engine->startRendering();
 }

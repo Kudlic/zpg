@@ -149,10 +149,13 @@
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainTestAsimp.cpp" />
+    <ClCompile Include="MainTestBezier.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="ModelBuilder.cpp" />
     <ClCompile Include="ModelFactory.cpp" />
     <ClCompile Include="Object.cpp" />
+    <ClCompile Include="ObjectMovable.cpp" />
+    <ClCompile Include="Path.cpp" />
     <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="ReflectorLight.cpp" />
     <ClCompile Include="Scene.cpp" />
@@ -185,6 +188,8 @@
     <ClInclude Include="Models\suzi_smooth.h" />
     <ClInclude Include="Models\tree.h" />
     <ClInclude Include="Object.h" />
+    <ClInclude Include="ObjectMovable.h" />
+    <ClInclude Include="Path.h" />
     <ClInclude Include="PointLight.h" />
     <ClInclude Include="ReflectorLight.h" />
     <ClInclude Include="Scene.h" />

@@ -20,7 +20,9 @@ enum class ModelType {
 	plainNT,
 	houseTextured,
 	terrain,
-	treeO
+	treeO,
+	zappa,
+	germanZappa
 };
 class ModelFactory
 {

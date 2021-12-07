@@ -4,6 +4,7 @@
 #include "Shaders/ShaderProg.h"
 #include "Shaders/ShaderLoader.h"
 #include "Object.h"
+#include "ObjectMovable.h"
 #include "Utilities/MatrixHandler.h"
 #include "Camera.h"
 #include "Scene.h"
@@ -124,9 +125,6 @@ void Engine::initScenes() {
 	MatrixHandler::translate(plainO->getMatRef(), glm::vec3(0.0f, -5.0f, 0.0f));
 	plainO->setRotation(0.01f, glm::vec3(1.0f, .0f, .0f));
 
-	Object* building = new Object(ModelFactory::premade(ModelType::houseTextured), lightsSp);
-	
-
 	Object* plainOT = new Object(ModelFactory::premade(ModelType::plainNT), lightsSp);
 	MatrixHandler::translate(plainOT->getMatRef(), glm::vec3(0.0f, -10.0f, 0.0f));
 	MatrixHandler::scale(plainOT->getMatRef(), glm::vec3(10.3f, 10.3f, 10.3f));
@@ -139,6 +137,13 @@ void Engine::initScenes() {
 	Object* suziSmoothO = new Object(ModelFactory::premade(ModelType::suziSmoothN), phongSp);
 	suziSmoothO->setRotation(-0.02f, glm::vec3(.0f, 1.0f, .0f));
 	MatrixHandler::translate(suziSmoothO->getMatRef(), glm::vec3(5.0f, 0.0f, 8.0f));
+
+	Object* building = new Object(ModelFactory::premade(ModelType::houseTextured), lightsSp);
+	ObjectMovable* zappaG = new ObjectMovable(ModelFactory::premade(ModelType::germanZappa), lightsSp);
+	zappaG->path.addWaypoint(glm::vec3(-10.f, 0.f, -20.f));
+	zappaG->path.addWaypoint(glm::vec3(20.f, 0.f, -10.f));
+	zappaG->path.addWaypoint(glm::vec3(20.f, 0.f, 10.f));
+	zappaG->path.addWaypoint(glm::vec3(-10.f, 0.f, 20.f));
 
 	Object* terrain = new Object(ModelFactory::premade(ModelType::terrain), am->getShaderByName("lights"), this->genIndex());
 	MatrixHandler::scale(terrain->getMatRef(), glm::vec3(2.0f, 2.0f, 2.0f));
@@ -162,6 +167,7 @@ void Engine::initScenes() {
 	//testScene->addObject(suziFlatO);
 	//testScene->addObject(suziSmoothO);
 	testScene->addObject(building);
+	testScene->addObject(zappaG);
 	//testScene->addObject(plainOT);
 	testScene->addObject(terrain);
 	testScene->addCamera(camera);
@@ -329,7 +335,7 @@ void Engine::onClick(int button, int action, double x, double y) {
 								 lx,   ly, color[0], color[1], color[2], color[3], depth,		index);
 		glm::vec3 screenX = glm::vec3(x, newy, depth);
 		glm::mat4 view = this->currentScene->getCurrentCam()->viewMat;
-		glm::mat4 projection = this->currentScene->getCurrentCam()->projMat;
+		glm::mat4 projection = this->currentScene->getCurrentCam()->projMat; 
 		glm::vec4 viewPort = glm::vec4(0, 0, window->getWidth(), window->getHeight());
 		glm::vec3 pos = glm::unProject(screenX, view, projection, viewPort);
 

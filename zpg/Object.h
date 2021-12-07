@@ -9,7 +9,7 @@
 #include "Utilities/IDrawable.h"
 class Object : public IDrawable
 {
-private:
+protected:
 	ShaderProg* shaderProgram; 
 	glm::mat4 transMat;
 	Model* model;
